@@ -3,11 +3,11 @@
   <title>ZhangJY_blog</title>
   
   
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="https://zhangjy1014.github.io/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="https://zhangjy1014.github.io/"/>
   <updated>2021-10-28T12:35:41.896Z</updated>
-  <id>http://example.com/</id>
+  <id>https://zhangjy1014.github.io/</id>
   
   <author>
     <name>ZhangJY</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Test</title>
-    <link href="http://example.com/2021/10/28/hello-world/"/>
-    <id>http://example.com/2021/10/28/hello-world/</id>
+    <link href="https://zhangjy1014.github.io/2021/10/28/hello-world/"/>
+    <id>https://zhangjy1014.github.io/2021/10/28/hello-world/</id>
     <published>2021-10-28T09:15:38.920Z</published>
     <updated>2021-10-28T12:35:41.896Z</updated>
     
@@ -33,10 +33,10 @@
     
     
     
-    <category term="ttt" scheme="http://example.com/categories/ttt/"/>
+    <category term="ttt" scheme="https://zhangjy1014.github.io/categories/ttt/"/>
     
     
-    <category term="11" scheme="http://example.com/tags/11/"/>
+    <category term="11" scheme="https://zhangjy1014.github.io/tags/11/"/>
     
   </entry>
   
