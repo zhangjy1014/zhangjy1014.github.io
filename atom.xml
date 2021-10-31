@@ -6,7 +6,7 @@
   <link href="https://zhangjy1014.github.io/atom.xml" rel="self"/>
   
   <link href="https://zhangjy1014.github.io/"/>
-  <updated>2021-10-30T12:59:32.540Z</updated>
+  <updated>2021-10-31T11:58:37.220Z</updated>
   <id>https://zhangjy1014.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://zhangjy1014.github.io/2021/10/30/notation/"/>
     <id>https://zhangjy1014.github.io/2021/10/30/notation/</id>
     <published>2021-10-30T12:38:57.000Z</published>
-    <updated>2021-10-30T12:59:32.540Z</updated>
+    <updated>2021-10-31T11:58:37.220Z</updated>
     
-    <content type="html"><![CDATA[<p>参考文档：1. <a href="https://dhndzwxj-3ghxc51j1010c2ed-1302940033.tcloudbaseapp.com/3276806131.html">https://dhndzwxj-3ghxc51j1010c2ed-1302940033.tcloudbaseapp.com/3276806131.html</a></p><p>参考视频：<a href="https://www.bilibili.com/video/BV1Yb411a7ty">https://www.bilibili.com/video/BV1Yb411a7ty</a></p><p>valine评论框架：<a href="https://valine.js.org/">https://valine.js.org</a></p><p>评论管理工具：<a href="https://console.leancloud.cn/apps/K6CcYTognPssARuNej3sBRGI-gzGzoHsz/storage/data/Comment">https://console.leancloud.cn/apps/K6CcYTognPssARuNej3sBRGI-gzGzoHsz/storage/data/Comment</a></p><p>上传部署：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p>参考文档：1. <a href="https://dhndzwxj-3ghxc51j1010c2ed-1302940033.tcloudbaseapp.com/3276806131.html">https://dhndzwxj-3ghxc51j1010c2ed-1302940033.tcloudbaseapp.com/3276806131.html</a></p><p>参考视频：<a href="https://www.bilibili.com/video/BV1Yb411a7ty">https://www.bilibili.com/video/BV1Yb411a7ty</a></p><p>valine评论框架：<a href="https://valine.js.org/">https://valine.js.org</a></p><p>评论管理工具：<a href="https://console.leancloud.cn/apps/K6CcYTognPssARuNej3sBRGI-gzGzoHsz/storage/data/Comment">https://console.leancloud.cn/apps/K6CcYTognPssARuNej3sBRGI-gzGzoHsz/storage/data/Comment</a></p><p>上传部署：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure><p><img src="https://i0.hdslb.com/bfs/album/f33c5a091d6493f6d82a4b5514c53cc83443b4f5.gif" alt="cat"></p><p><img src="https://i0.hdslb.com/bfs/album/1e70d010041a33ca14087c213ed164ba940a3bf4.png@1036w.png" alt="cat2"></p><p><img src="/.io//ccc.png" alt="cat3"></p>]]></content>
     
     
       
