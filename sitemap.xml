@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zhangjy1014.github.io/2022/01/15/RIP-Route/</loc>
+    
+    <lastmod>2022-01-15</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zhangjy1014.github.io/2021/10/30/notation/</loc>
     
-    <lastmod>2021-10-31</lastmod>
+    <lastmod>2022-01-15</lastmod>
     
   </url>
   
@@ -39,7 +46,7 @@
 
   <url>
     <loc>https://zhangjy1014.github.io/</loc>
-    <lastmod>2021-11-27</lastmod>
+    <lastmod>2022-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -47,7 +54,14 @@
   
   <url>
     <loc>https://zhangjy1014.github.io/tags/hexo/</loc>
-    <lastmod>2021-11-27</lastmod>
+    <lastmod>2022-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhangjy1014.github.io/tags/Computer-Networks/</loc>
+    <lastmod>2022-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -56,7 +70,14 @@
   
   <url>
     <loc>https://zhangjy1014.github.io/categories/blog/</loc>
-    <lastmod>2021-11-27</lastmod>
+    <lastmod>2022-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zhangjy1014.github.io/categories/Computer-Networks/</loc>
+    <lastmod>2022-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
