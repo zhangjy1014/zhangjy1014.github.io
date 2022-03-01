@@ -46,7 +46,7 @@
     <link href="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/"/>
     <id>https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/</id>
     <published>2021-11-01T08:07:25.000Z</published>
-    <updated>2022-03-01T08:11:13.499Z</updated>
+    <updated>2022-03-01T08:13:28.533Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/blog-object-oriented-design.pdf" title="blog-object-oriented-design.pdf">博客系统面向对象设计文档</a></p><object data="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/blog-object-oriented-design.pdf" type="application/pdf" width="100%" height="877px"></object>]]></content>
     
@@ -61,7 +61,7 @@
     <category term="Software Engineering" scheme="https://zhangjy1014.github.io/categories/Software-Engineering/"/>
     
     
-    <category term="Software analysis" scheme="https://zhangjy1014.github.io/tags/Software-analysis/"/>
+    <category term="Software design" scheme="https://zhangjy1014.github.io/tags/Software-design/"/>
     
   </entry>
   
