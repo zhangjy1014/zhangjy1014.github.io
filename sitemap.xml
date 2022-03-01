@@ -16,6 +16,13 @@
   </url>
   
   <url>
+    <loc>https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/</loc>
+    
+    <lastmod>2022-03-01</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zhangjy1014.github.io/2022/01/15/RIP-Route/</loc>
     
     <lastmod>2022-01-19</lastmod>
@@ -67,7 +74,7 @@
 
   
   <url>
-    <loc>https://zhangjy1014.github.io/tags/Computer-Networks/</loc>
+    <loc>https://zhangjy1014.github.io/tags/Software-design/</loc>
     <lastmod>2022-03-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -81,14 +88,14 @@
   </url>
   
   <url>
-    <loc>https://zhangjy1014.github.io/tags/hexo/</loc>
+    <loc>https://zhangjy1014.github.io/tags/Computer-Networks/</loc>
     <lastmod>2022-03-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zhangjy1014.github.io/tags/Software-design/</loc>
+    <loc>https://zhangjy1014.github.io/tags/hexo/</loc>
     <lastmod>2022-03-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -97,14 +104,14 @@
 
   
   <url>
-    <loc>https://zhangjy1014.github.io/categories/Computer-Science/</loc>
+    <loc>https://zhangjy1014.github.io/categories/Software-Engineering/</loc>
     <lastmod>2022-03-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zhangjy1014.github.io/categories/Software-Engineering/</loc>
+    <loc>https://zhangjy1014.github.io/categories/Computer-Science/</loc>
     <lastmod>2022-03-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
