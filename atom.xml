@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ZhangJY_blog</title>
+  
+  
+  <link href="https://zhangjy1014.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://zhangjy1014.github.io/"/>
+  <updated>2023-03-24T12:45:57.983Z</updated>
+  <id>https://zhangjy1014.github.io/</id>
+  
+  <author>
+    <name>ZhangJY</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ch1_操作系统概述</title>
+    <link href="https://zhangjy1014.github.io/2023/03/24/Ch1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/"/>
+    <id>https://zhangjy1014.github.io/2023/03/24/Ch1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/</id>
+    <published>2023-03-24T12:41:25.000Z</published>
+    <updated>2023-03-24T12:45:57.983Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Ch1-操作系统概述"><a href="#Ch1-操作系统概述" class="headerlink" title="Ch1_操作系统概述"></a>Ch1_操作系统概述</h1><p align="center"><a href="https://github.com/zhangjy1014" target="view_window"><img alt="GitHub" src="https://img.shields.io/badge/Github-@zhangjy1014-000000.svg?style=flat-square&logo=Github"></a><a href="https://space.bilibili.com/434002748"><img src="https://img.shields.io/badge/B%E7%AB%99-@Lil_SuiSad-000000.svg?style=flat-square&logo=Bilibili"></a></p><p>[toc]</p><h2 id="OS基础知识"><a href="#OS基础知识" class="headerlink" title="OS基础知识"></a>OS基础知识</h2><h3 id="OS的意义"><a href="#OS的意义" class="headerlink" title="OS的意义"></a>OS的意义</h3><p>什么是OS：1. 管理系统中的各种软硬件资源    2. 为用户提供良好的界面    </p><p>操作系统是一种管理计算机系统各种软硬件资源的系统软件，位于硬件层之上，所有其他软件层之下的系统软件，用来进行CPU管理、存储器管理、I/O设备管理、文件管理。</p><h3 id="OS的作用"><a href="#OS的作用" class="headerlink" title="OS的作用"></a>OS的作用</h3><h4 id="功能（4个）"><a href="#功能（4个）" class="headerlink" title="功能（4个）"></a>功能（4个）</h4><ol><li>CPU管理； 2. 存储器管理； 3. $I/O$设备管理； 4. 文件管理</li></ol><h4 id="地位"><a href="#地位" class="headerlink" title="地位"></a>地位</h4><p>​    操作系统是配置在计算机硬件上的第一层软件，是对硬件系统的第一次扩充。OS在计算机系统中占据着重要地位，其他软件都依赖于它的支持，是与硬件关系最密切的==系统软件==</p><h3 id="为什么要学OS"><a href="#为什么要学OS" class="headerlink" title="为什么要学OS"></a>为什么要学OS</h3><h2 id="OS相关知识"><a href="#OS相关知识" class="headerlink" title="OS相关知识"></a>OS相关知识</h2><h3 id="OS历史"><a href="#OS历史" class="headerlink" title="OS历史"></a>OS历史</h3><h4 id="手工阶段"><a href="#手工阶段" class="headerlink" title="手工阶段"></a>手工阶段</h4><p>步骤：</p><ol><li>将程序和数据记录在打孔纸带上</li><li>将程序的纸带放到光电输入机，通过控制台开关启动光电机将程序输入内存</li><li>通过控制台启动程序，从第一条指令开始运行</li><li>运行结果传输到打印机输出</li></ol><p>缺点：</p><ol><li>用户在处理作业的整个过程中要独占系统的全部资源</li><li>手工操作所需时间长</li></ol><h4 id="批处理阶段"><a href="#批处理阶段" class="headerlink" title="批处理阶段"></a>批处理阶段</h4><h5 id="联机批处理"><a href="#联机批处理" class="headerlink" title="联机批处理"></a>联机批处理</h5><img src="https://s2.loli.net/2022/07/16/HPfedSiUI7tXEa9.png" alt="image-20220603155920940" style="zoom:33%;"><p>原理：操作员将若干作业合成为一批，按照卡片顺序依次放到读卡器，监督程序Monitor通过内存将这批作业传输到磁带机（大量作业在磁带机上排队等待处理）。输入完毕后，监督程序开始处理这批作业。自动将第一个作业读入内存，并对其进行编译、链接、执行、输出。处理完第一个处理第二个，如此往复。直到所有都处理完再处理下一批。</p><p>优点：作业自动转换，缩短了手工操作时间；出现了Monitor及相关软件的支持</p><p>缺点：作业由读卡机到磁带机的传输需要<strong>处理机</strong>完成,由于设备的传输速度远低于处理机的速度, 在此传输过程中处理机仍会浪费较多时间。即==I/O设备与CPU直接相连==，CPU(主机)浪费。实际上还是处理机利用monitor程序来处理I/O。</p><h5 id="脱机批处理"><a href="#脱机批处理" class="headerlink" title="脱机批处理"></a>脱机批处理</h5><img src="https://s2.loli.net/2022/07/16/4Q3RCUwf6uctshM.png" alt="image-20220603161150702" style="zoom:33%;"><p>原理：待处理的作业由==卫星机==负责经读卡机传送到输入磁带上，主机从输入磁带读入作业、加以处理，并把处理结果送到输出磁带上，最后由卫星机负责将输出磁带上的结果在打印机上输出。</p><p>优点：卫星机与主机分工明确，并行工作； 提高了CPU的运行效率</p><p>缺点：单任务系统；需人工拆装磁带</p><h5 id="执行系统阶段"><a href="#执行系统阶段" class="headerlink" title="执行系统阶段"></a>执行系统阶段</h5><p>通道(channel)：$I/O$处理机， 通道的I/O操作能与处理机的计算工作完全并行，并能在I/O操作结束后向处理机发出中断请求</p><p>中断(interrupt)：中断是指当主机接到某种外部信号时，马上暂停当前正在执行的任务，转去处理这一中断事件，处理完毕后返回原来的断点继续工作。</p><p>假脱机(spooling)：作业由读卡机到存储区的传输以及运行结果由存储区到打印机的传输由通道完成，既不是脱机，也不是联机（也不依靠卫星机）。<br>假脱机优点：通道替代卫星机，免去手工装卸磁带的麻烦。</p><h3 id="OS完善"><a href="#OS完善" class="headerlink" title="OS完善"></a>OS完善</h3><h4 id="多道批处理阶段-Multi-programming-System"><a href="#多道批处理阶段-Multi-programming-System" class="headerlink" title="多道批处理阶段(Multi-programming System)"></a>多道批处理阶段(Multi-programming System)</h4><p>原理：多道作业。用户提交的作业都先放在外存上并排成一个后备队列，然后由作业调度程序按一定的算法从后备队列中选择<strong>若干个作业</strong>调入<strong>内存</strong>。当一道作业因等待I/O传输完成等原因暂时不能运行时，系统可将CPU资源分配给另一个可运行的作业。</p><p>本质上是将若干个程序调入到内存，使他们交替执行，CPU就始终处于忙状态。</p><p>宏观上并行：多个作业调入内存，同时占有资源各自运行<br>微观上串行：轮流占有处理机，交替执行</p><p>优点：资源利用率高，吞吐量大<br>缺点：平均周转时间长，缺乏交互能力</p><h4 id="分时系统-Time-sharing-System"><a href="#分时系统-Time-sharing-System" class="headerlink" title="分时系统(Time-sharing System)"></a>分时系统(Time-sharing System)</h4><p>原理：在一台主机上连接多个显示器和键盘的终端，允许多个用户共享主机资源，以终端方式使用主机，每个用户都像是独占这台主机。</p><p>多路性：一个主机与多个终端相连，系统按分时原则为每个用户服务。宏观上，多个用户同时工作,共享系统资源；微观上，每个用户轮流运行一个时间片。</p><p>交互性：以对话的方式为用户服务</p><p>独占性：每个终端用户仿佛都拥有一台虚拟机</p><h4 id="实时系统-Real-time-System"><a href="#实时系统-Real-time-System" class="headerlink" title="实时系统(Real-time System)"></a>实时系统(Real-time System)</h4><p>实时系统是指系统能即时响应外部事件的请求，在规定时间内完成对事件的处理，并控制所有实时任务协调一致地运行。它分为实时信息处理系统和实时控制系统两大类。</p><h4 id="通用系统"><a href="#通用系统" class="headerlink" title="通用系统"></a>通用系统</h4><p>将多道批处理、分时和实时等功能结合在一起构造出的多功能的操作系统。</p><h3 id="操作系统基本特性（4个）"><a href="#操作系统基本特性（4个）" class="headerlink" title="操作系统基本特性（4个）"></a>操作系统基本特性（4个）</h3><h4 id="程序的并发性"><a href="#程序的并发性" class="headerlink" title="程序的并发性"></a>程序的并发性</h4><p>程序的并发指计算机系统同时存在多个程序，宏观上，这些程序同时向前推进。</p><p>并发：宏观上同时，微观上轮流交替<br>并行：微观上同时，需要多个处理器</p><p>并发是计算机系统的重要特征，其他特征都是以并发为前提。</p><h4 id="资源的共享性"><a href="#资源的共享性" class="headerlink" title="资源的共享性"></a>资源的共享性</h4><p>操作系统程序与用户程序共用系统中的各种资源，这种共享是在操作系统的控制下实现的</p><p><strong>互斥共享</strong>：系统中有一些资源，当一个进程正在访问该资源时，其他进程必须等待，直到该进程访问完并释放这些资源时，其他进程才能访问这些资源。这就是互斥共享，互斥共享的资源叫<strong>临界资源</strong>。如：打印机等物理设备或者表格就是临界资源，它们要求互斥共享。（不能同时）</p><p><strong>同时共享：</strong>系统中有一类资源，允许在一段时间内，由多个进程同时对其访问。这就是同时共享，本质还是宏观上时同时，微观上是交替分时的。如，磁盘，同时可以多个进程访问磁盘。</p><h4 id="异步性"><a href="#异步性" class="headerlink" title="异步性"></a>异步性</h4><p>不确定性。程序交替执行需要中断，中断是不确定的，所以操作系统中的运行轨迹是异步的，不可预知的。比如先进入内存的作业可能比后进入的后完成。</p><h4 id="虚拟性"><a href="#虚拟性" class="headerlink" title="虚拟性"></a>虚拟性</h4><p>把物理上的一个变成逻辑上的多个。（分时、分空间）</p><h3 id="操作系统的分类"><a href="#操作系统的分类" class="headerlink" title="操作系统的分类"></a><del>操作系统的分类</del></h3><h4 id="多道批处理操作系统"><a href="#多道批处理操作系统" class="headerlink" title="多道批处理操作系统"></a>多道批处理操作系统</h4><img src="https://s2.loli.net/2022/07/16/WwqPHVb6dF3UBfS.png" alt="image-20220603170341310" style="zoom:33%;"><p>作业（Job）：用户程序，数据，程序说明书</p><p>输入井：用来保存已经输入、尚未处理的作业。外存</p><p>输出井：用来保存处理完毕、尚未输出的结果。外存</p><p>结果：程序运行结果+记账信息</p><h4 id="分时操作系统"><a href="#分时操作系统" class="headerlink" title="分时操作系统"></a>分时操作系统</h4><img src="https://s2.loli.net/2022/07/16/spTafqo5Fzl1mxD.png" alt="image-20220603170617913" style="zoom:33%;"><h4 id="实时操作系统"><a href="#实时操作系统" class="headerlink" title="实时操作系统"></a>实时操作系统</h4><p>实时控制、实时信息处理</p><p>。。。。</p><h3 id="硬件环境（8大）"><a href="#硬件环境（8大）" class="headerlink" title="硬件环境（8大）"></a>硬件环境（8大）</h3><ol><li><p>时钟装置：        绝对时钟：记载实际时间、不断发生            间隔时钟（闹钟）：定期发生中断</p></li><li><p>系统栈： 内存中操作系统空间中的一个固定区域。   </p><pre><code>作用：保存中断现场、保存子程序间相互嵌套调用的信息（中间参数）。       </code></pre><p>*每个运行程序都有一个对应系统栈；进程切换伴随系统栈切换</p></li><li><p>特权指令和非特权指令。 特权指令：只有在管态下才能执行的指令<br>非特权指令：管态和目态均可执行的指令</p></li><li><p>处理机状态<br>管态：操作系统运行时所处的状态。处于管态时可以执行硬件提供的全部指令（特权指令、非特权指令）。在管态下可通过执行特权指令修改程序状态字PSW，改变机器状态，实现管态与目态切换。<br>目态：一般用户程序运行时所处的状态。只能执行非特权指令</p><p>管态=》目态   通过==修改程序状态字==(PSW)来实现。由于操作系统运行于管态，用户程序运行于目态，该状态转换必包括从操作系统程序切换到用户程序。<br>目态=》管态   唯一途径：==中断==     用户程序在目态下运行时不能直接使用I/O指令等特权指令。只有当用户程序执行到==访管指令==产生一次中断后，使机器在原来的目态下执行用户程序变成在管态下执行操作系统的系统调用程序。所以从目态转换成管态的唯一途径是中断。</p></li><li><p>地址映射机构：将逻辑地址变为物理地址</p></li><li><p>存储保护设施：进行地址越界和越权检查，防止应用程序侵犯操作系统空间或其他应用空间</p></li><li><p>中断装置：发现中断、响应中断</p></li><li><p>通道与DMA控制器：     通道：负责I/O处理，有自己的指令系统和运控部件</p><pre><code>DMA(Direct Memory Access):数据在内存与块型设备的简单传输</code></pre></li></ol><h3 id="界面形式"><a href="#界面形式" class="headerlink" title="界面形式"></a><del>界面形式</del></h3><ol><li>交互终端命令（图形用户界面）</li><li>作用控制语言</li><li>系统调用命令</li></ol><h3 id="运行机理"><a href="#运行机理" class="headerlink" title="运行机理"></a>运行机理</h3><p>现代OS是中断驱动的</p><p>中断是程序切换的必要条件&lt;程序切换必有中断&gt;</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Ch1-操作系统概述&quot;&gt;&lt;a href=&quot;#Ch1-操作系统概述&quot; class=&quot;headerlink&quot; title=&quot;Ch1_操作系统概述&quot;&gt;&lt;/a&gt;Ch1_操作系统概述&lt;/h1&gt;&lt;p align=&quot;center&quot;&gt;
+&lt;a href=&quot;https://githu</summary>
+      
+    
+    
+    
+    <category term="OS" scheme="https://zhangjy1014.github.io/categories/OS/"/>
+    
+    
+    <category term="Computer Science" scheme="https://zhangjy1014.github.io/tags/Computer-Science/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于距离向量算法的路由协议RIP</title>
+    <link href="https://zhangjy1014.github.io/2022/01/15/RIP-Route/"/>
+    <id>https://zhangjy1014.github.io/2022/01/15/RIP-Route/</id>
+    <published>2022-01-15T08:42:27.000Z</published>
+    <updated>2022-01-19T08:10:07.478Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><p>理解基于距离向量算法的路由协议 RIP。</p><h2 id="二、实验内容和要求"><a href="#二、实验内容和要求" class="headerlink" title="二、实验内容和要求"></a>二、实验内容和要求</h2><p>1、用 Cisco Packet Tracer 研究 RIP；</p><p>2、支持多个路由器；</p><p>3、学习使用 Cisco Packet Tracer 的 Simulation 模式，通过捕获的数据分析 RIP 报文格式，并在实验报告体现；</p><h2 id="三、实验过程"><a href="#三、实验过程" class="headerlink" title="三、实验过程"></a>三、实验过程</h2><h3 id="3-1建立网络拓扑结构"><a href="#3-1建立网络拓扑结构" class="headerlink" title="3.1建立网络拓扑结构"></a>3.1建立网络拓扑结构</h3><p>在Packet Tracer中，建立如图所示的网络拓扑结构:</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/1.png" alt="1"></p><h3 id="3-2配置参数"><a href="#3-2配置参数" class="headerlink" title="3.2配置参数"></a>3.2配置参数</h3><h4 id="3-2-1-PC配置"><a href="#3-2-1-PC配置" class="headerlink" title="3.2.1 PC配置"></a>3.2.1 PC配置</h4><p>PC0的配置：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/2.png" alt="2"></p><p>PC1的配置：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/3.png" alt="3"></p><h4 id="3-2-2-Route-IP、RIP配置"><a href="#3-2-2-Route-IP、RIP配置" class="headerlink" title="3.2.2 Route IP、RIP配置"></a>3.2.2 Route IP、RIP配置</h4><p>Route A配置：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/4.png" alt="4"></p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/5.png" alt="5"><br>Route B配置：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/6.png" alt="6"></p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/7.png" alt="7"></p><p>Route C配置：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/8.png" alt="8"></p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/9.png" alt="9"></p><p>Route D配置：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/10.png" alt="10"></p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/11.png" alt="11"></p><p>Route E配置：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/12.png" alt="12"></p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/13.png" alt="13"></p><h3 id="3-3测试网络"><a href="#3-3测试网络" class="headerlink" title="3.3测试网络"></a>3.3测试网络</h3><h4 id="3-3-1连通性测试"><a href="#3-3-1连通性测试" class="headerlink" title="3.3.1连通性测试"></a>3.3.1连通性测试</h4><p>PC0、PC1分别使用ping命令，可见网络是连通的。</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/14.png" alt="14"></p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/15.png" alt="15"></p><h4 id="3-3-2使用Simulation模式查看网络及报文"><a href="#3-3-2使用Simulation模式查看网络及报文" class="headerlink" title="3.3.2使用Simulation模式查看网络及报文"></a>3.3.2使用Simulation模式查看网络及报文</h4><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/16.png" alt="16"></p><p>对报文进行分析</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/17.png" alt="17"></p><p>Layer1 是物理层，表示Route从GigabitEthernet0/1收到数据。</p><p>Layer2 是数据链路层，表示其MAC地址。</p><p>Layer3 是网络层，表示源地址和目的地址。</p><p>Layer4 是传输层，表示报文交接的端口。</p><p>Layer7 是应用层，表示协议及版本。</p><p>报文具体格式：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/18.png" alt="18"></p><p>Route A路由表：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/19.png" alt="19"></p><p>Route B路由表：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/20.png" alt="20"></p><p>Route C路由表：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/21.png" alt="21"></p><p>Route D路由表：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/22.png" alt="22"></p><p>Route E路由表：</p><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/23.png" alt="23"></p><p>由此可见所有路由器都学到了网络的跳转路径。</p><p>附：<a href="https://zhangjy1014.github.io/2022/01/15/RIP-Route/4.pkt" title="4.pkt">Cisco Packet Tracer实验文件</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;一、实验目的&quot;&gt;&lt;a href=&quot;#一、实验目的&quot; class=&quot;headerlink&quot; title=&quot;一、实验目的&quot;&gt;&lt;/a&gt;一、实验目的&lt;/h2&gt;&lt;p&gt;理解基于距离向量算法的路由协议 RIP。&lt;/p&gt;
+&lt;h2 id=&quot;二、实验内容和要求&quot;&gt;&lt;a href=&quot;#</summary>
+      
+    
+    
+    
+    <category term="Computer Science" scheme="https://zhangjy1014.github.io/categories/Computer-Science/"/>
+    
+    
+    <category term="Computer Networks" scheme="https://zhangjy1014.github.io/tags/Computer-Networks/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>博客系统面向对象设计文档</title>
+    <link href="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/"/>
+    <id>https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/</id>
+    <published>2021-11-01T08:07:25.000Z</published>
+    <updated>2022-03-01T08:13:28.533Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/blog-object-oriented-design.pdf" title="blog-object-oriented-design.pdf">博客系统面向对象设计文档</a></p><object data="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/blog-object-oriented-design.pdf" type="application/pdf" width="100%" height="877px"></object>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/blog-object-oriented-design.pdf&quot; title=&quot;blog-object-oriente</summary>
+      
+    
+    
+    
+    <category term="Software Engineering" scheme="https://zhangjy1014.github.io/categories/Software-Engineering/"/>
+    
+    
+    <category term="Software design" scheme="https://zhangjy1014.github.io/tags/Software-design/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>博客系统结构化设计文档</title>
+    <link href="https://zhangjy1014.github.io/2021/11/01/blog-structured-design/"/>
+    <id>https://zhangjy1014.github.io/2021/11/01/blog-structured-design/</id>
+    <published>2021-11-01T07:50:29.000Z</published>
+    <updated>2022-03-01T08:12:00.246Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://zhangjy1014.github.io/2021/11/01/blog-structured-design/blog-structured-design.pdf" title="blog-structured-design.pdf">博客系统结构化设计文档</a></p><object data="https://zhangjy1014.github.io/2021/11/01/blog-structured-design/blog-structured-design.pdf" type="application/pdf" width="100%" height="877px"></object>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://zhangjy1014.github.io/2021/11/01/blog-structured-design/blog-structured-design.pdf&quot; title=&quot;blog-structured-design.pdf&quot;&gt;博</summary>
+      
+    
+    
+    
+    <category term="Software Engineering" scheme="https://zhangjy1014.github.io/categories/Software-Engineering/"/>
+    
+    
+    <category term="Software design" scheme="https://zhangjy1014.github.io/tags/Software-design/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>博客系统结构化需求分析文档</title>
+    <link href="https://zhangjy1014.github.io/2021/11/01/blog-structured-analysis/"/>
+    <id>https://zhangjy1014.github.io/2021/11/01/blog-structured-analysis/</id>
+    <published>2021-11-01T07:33:12.000Z</published>
+    <updated>2022-03-01T08:11:18.419Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://zhangjy1014.github.io/2021/11/01/blog-structured-analysis/blog-structured-analysis.pdf" title="blog-structured-analysis.pdf">博客系统结构化需求分析文档</a></p><object data="https://zhangjy1014.github.io/2021/11/01/blog-structured-analysis/blog-structured-analysis.pdf" type="application/pdf" width="100%" height="877px"></object>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://zhangjy1014.github.io/2021/11/01/blog-structured-analysis/blog-structured-analysis.pdf&quot; title=&quot;blog-structured-analysis.</summary>
+      
+    
+    
+    
+    <category term="Software Engineering" scheme="https://zhangjy1014.github.io/categories/Software-Engineering/"/>
+    
+    
+    <category term="Software analysis" scheme="https://zhangjy1014.github.io/tags/Software-analysis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>建站notation</title>
+    <link href="https://zhangjy1014.github.io/2021/10/30/notation/"/>
+    <id>https://zhangjy1014.github.io/2021/10/30/notation/</id>
+    <published>2021-10-30T12:38:57.000Z</published>
+    <updated>2022-01-15T08:50:41.160Z</updated>
+    
+    <content type="html"><![CDATA[<p>参考文档：1. <a href="https://dhndzwxj-3ghxc51j1010c2ed-1302940033.tcloudbaseapp.com/3276806131.html">https://dhndzwxj-3ghxc51j1010c2ed-1302940033.tcloudbaseapp.com/3276806131.html</a></p><p>参考视频：<a href="https://www.bilibili.com/video/BV1Yb411a7ty">https://www.bilibili.com/video/BV1Yb411a7ty</a></p><p>valine评论框架：<a href="https://valine.js.org/">https://valine.js.org</a></p><p>评论管理工具：<a href="https://console.leancloud.cn/apps/K6CcYTognPssARuNej3sBRGI-gzGzoHsz/storage/data/Comment">https://console.leancloud.cn/apps/K6CcYTognPssARuNej3sBRGI-gzGzoHsz/storage/data/Comment</a></p><p>上传部署：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure><p>命令顺序：<br><img src="https://zhangjy1014.github.io/2021/10/30/notation/sc.png" alt="sc"></p><p><img src="https://zhangjy1014.github.io/2021/10/30/notation/cat.gif" alt="cat"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;参考文档：1. &lt;a href=&quot;https://dhndzwxj-3ghxc51j1010c2ed-1302940033.tcloudbaseapp.com/3276806131.html&quot;&gt;https://dhndzwxj-3ghxc51j1010c2ed-130294</summary>
+      
+    
+    
+    
+    <category term="blog" scheme="https://zhangjy1014.github.io/categories/blog/"/>
+    
+    
+    <category term="hexo" scheme="https://zhangjy1014.github.io/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo官方文档</title>
+    <link href="https://zhangjy1014.github.io/2021/10/28/hello-world/"/>
+    <id>https://zhangjy1014.github.io/2021/10/28/hello-world/</id>
+    <published>2021-10-28T09:15:38.920Z</published>
+    <updated>2021-10-30T12:00:39.950Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
+      
+    
+    
+    
+    <category term="blog" scheme="https://zhangjy1014.github.io/categories/blog/"/>
+    
+    
+    <category term="hexo" scheme="https://zhangjy1014.github.io/tags/hexo/"/>
+    
+  </entry>
+  
+</feed>
