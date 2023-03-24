@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Ch3_中断与处理机调度 | JY&#39;s Blog</title>
+  <meta name="description" content="Ch3_中断与处理机调度     [toc] 中断中断引入操作系统是中断驱动的。 为什么要引入中断：    CPU的高速与外设的低速不匹配，采用软件查询方式，程序轮询。 基本概念定义: 在程序运行过程中,出现了某种紧急事件,处理机必须中止当前正在运行的程序,转去处理此事件,然后再恢复原来运行的程序,这个过程称作中断。 中断的硬件实现：中断装置 中断的软件实现：中断处理程序 中断系统：中断装置+中断">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ch3_中断与处理机调度">
+<meta property="og:url" content="https://zhangjy1014.github.io/2023/03/24/Ch3-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/index.html">
+<meta property="og:site_name" content="ZhangJY_blog">
+<meta property="og:description" content="Ch3_中断与处理机调度     [toc] 中断中断引入操作系统是中断驱动的。 为什么要引入中断：    CPU的高速与外设的低速不匹配，采用软件查询方式，程序轮询。 基本概念定义: 在程序运行过程中,出现了某种紧急事件,处理机必须中止当前正在运行的程序,转去处理此事件,然后再恢复原来运行的程序,这个过程称作中断。 中断的硬件实现：中断装置 中断的软件实现：中断处理程序 中断系统：中断装置+中断">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.shields.io/badge/Github-@zhangjy1014-000000.svg?style=flat-square&logo=Github">
+<meta property="og:image" content="https://img.shields.io/badge/Bilibili-@LilSuiSad-000000.svg?style=flat-square&logo=Bilibili">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/ytjQc6GgrYBNbLi.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/3WojsitaDMVONlH.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/9NOu8P3TKGos5MZ.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/4LoliusdYfCOm9k.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/1qXfep7an8MOu4S.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/Tboimfe2saYcGk4.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/o6WkUBMmXJ1jhea.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/IYDrz2aUyEiuFZb.png">
+<meta property="article:published_time" content="2023-03-24T12:41:25.000Z">
+<meta property="article:modified_time" content="2023-03-24T13:39:36.868Z">
+<meta property="article:author" content="ZhangJY">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.shields.io/badge/Github-@zhangjy1014-000000.svg?style=flat-square&logo=Github">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhangjy1014.github.io/2023/03/24/Ch3-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="ZhangJY_blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhangjy1014" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">JY</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">student</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangjy1014" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://instagram.com" target="_blank" title="Instagram" data-toggle=tooltip data-placement=top><i class="icon icon-instagram"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Computer-Science/">Computer Science</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Software-Engineering/">Software Engineering</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Networks/" rel="tag">Computer Networks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software-analysis/" rel="tag">Software analysis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software-design/" rel="tag">Software design</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Computer-Networks/" style="font-size: 13px;">Computer Networks</a> <a href="/tags/OS/" style="font-size: 14px;">OS</a> <a href="/tags/Software-analysis/" style="font-size: 13px;">Software analysis</a> <a href="/tags/Software-design/" style="font-size: 13.5px;">Software design</a> <a href="/tags/hexo/" style="font-size: 13.5px;">hexo</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" class="title">Ch1_操作系统概述</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch2-%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E4%B8%8E%E4%BD%9C%E4%B8%9A/" class="title">Ch2_进程线程与作业</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch3-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/" class="title">Ch3_中断与处理机调度</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF/" class="title">Ch4_互斥同步与通讯</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF/" class="title">Ch5_死锁和饥饿</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ch3-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6"><span class="toc-number">1.</span> <span class="toc-text">Ch3_中断与处理机调度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD"><span class="toc-number">1.1.</span> <span class="toc-text">中断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E5%BC%95%E5%85%A5"><span class="toc-number">1.1.1.</span> <span class="toc-text">中断引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.2.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E8%A3%85%E7%BD%AE"><span class="toc-number">1.1.3.</span> <span class="toc-text">中断装置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.1.4.</span> <span class="toc-text">中断处理程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6"><span class="toc-number">1.2.</span> <span class="toc-text">处理机调度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%B0%83%E5%BA%A6"><span class="toc-number">1.2.1.</span> <span class="toc-text">基本调度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%EF%BC%888%E5%A4%A7%EF%BC%89"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">调度算法（8大）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">性能评价指标</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6%E7%BA%A7%E5%88%AB%E5%92%8C%E5%A4%9A%E7%BA%A7%E8%B0%83%E5%BA%A6"><span class="toc-number">1.2.2.</span> <span class="toc-text">调度级别和多级调度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E7%BA%A7%E5%88%AB"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">三个级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E8%B0%83%E5%BA%A6%EF%BC%88%E4%B8%AD%E7%BA%A7%EF%BC%89"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">交换调度（中级）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%97%B6%E8%B0%83%E5%BA%A6"><span class="toc-number">1.2.3.</span> <span class="toc-text">实时调度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6"><span class="toc-number">1.2.4.</span> <span class="toc-text">多处理机调度</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Ch3-中断与处理机调度" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ch3_中断与处理机调度
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/03/24/Ch3-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/" class="article-date">
+	  <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Computer-Science/">Computer Science</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/OS/" rel="tag">OS</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/03/24/Ch3-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Ch3-中断与处理机调度"><a href="#Ch3-中断与处理机调度" class="headerlink" title="Ch3_中断与处理机调度"></a>Ch3_中断与处理机调度</h1><p align="center">
+<a href="https://github.com/zhangjy1014" target="view_window"><img alt="GitHub" src="https://img.shields.io/badge/Github-@zhangjy1014-000000.svg?style=flat-square&logo=Github"></a>
+<a target="_blank" rel="noopener" href="https://space.bilibili.com/434002748"><img src="https://img.shields.io/badge/Bilibili-@LilSuiSad-000000.svg?style=flat-square&logo=Bilibili"></a>
+</p>
+
+<p>[toc]</p>
+<h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><h3 id="中断引入"><a href="#中断引入" class="headerlink" title="中断引入"></a>中断引入</h3><p>操作系统是中断驱动的。</p>
+<p>为什么要引入中断：    CPU的高速与外设的低速不匹配，采用软件查询方式，程序轮询。</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>定义: 在程序运行过程中,出现了某种紧急事件,处理机必须中止当前正在运行的程序,转去处理此事件,然后再恢复原来运行的程序,这个过程称作中断。</p>
+<p>中断的硬件实现：中断装置</p>
+<p>中断的软件实现：中断处理程序</p>
+<p>中断系统：中断装置+中断处理程序</p>
+<h3 id="中断装置"><a href="#中断装置" class="headerlink" title="中断装置"></a>中断装置</h3><p>中断装置是用于==发现并响应==中断的==硬件==机构。</p>
+<p><strong>工作过程</strong>（中断响应过程）：==识别中断源==（选择优先级最高的中断源）、==保存中断现场==（将正在运行的进程的程序状态字PSW和指令计数器PC中的内容压入系统栈）、==转入中断处理程序==（将与中断事件相对应的中断向量由内存指定单元处取出并PSW和PC，如此便转入对应的中断处理程序）</p>
+<img src="https://s2.loli.net/2022/07/16/ytjQc6GgrYBNbLi.png" alt="image-20220616210002176" style="zoom:50%;">
+
+<p><strong>中断向量</strong>：中断源的识别标志,可用来形成相应的中断服务程序的入口地址或存放中断服务程序的首地址。</p>
+<p><strong>中断源</strong>:引起中断的事件称为中断源；</p>
+<p><strong>中断字</strong>：中断寄存器中的内容；</p>
+<p><strong>中断请求</strong>:中断源向CPU提出处理的请求；</p>
+<p><strong>断点</strong>:发生中断时被打断程序的暂停点；</p>
+<p><strong>中断响应</strong>:CPU暂停现行程序而转为响应中断请求的过程；</p>
+<p><strong>中断处理程序</strong>:处理中断源的程序；</p>
+<p><strong>中断处理</strong>:CPU执行有关的中断处理程序；</p>
+<p><strong>中断返回</strong>:返回断点的过程；</p>
+<p>处于关中断状态下执行的程序段应尽量短,否则会影响系统的并发性。(为什么？)</p>
+<p>中断是进程切换的必要条件，如果关了中断，则操作系统无法获得处理机的控制权，也就无法使多个进程分时共享处理机。在关中断期间，一个进程独占处理机。所以说“关中断”会影响系统的并发性</p>
+<h3 id="中断处理程序"><a href="#中断处理程序" class="headerlink" title="中断处理程序"></a>中断处理程序</h3><p>中断处理程序的主要工作</p>
+<p>保存中断现场：关中断、保存、开中断</p>
+<p>处理中断事件</p>
+<p>恢复正常操作</p>
+<p>由核心返回目态程序时，进程的PSW和PC为何必须用一条机器指令同时恢复？<br>进程的程序状态字PSW和指令计数器PC的内容必须由一条指令同时恢复，这样才能保证系统状态由管态转到目态的同时，控制转到上升进程的断点处继续执行。</p>
+<h2 id="处理机调度"><a href="#处理机调度" class="headerlink" title="处理机调度"></a>处理机调度</h2><h3 id="基本调度"><a href="#基本调度" class="headerlink" title="基本调度"></a>基本调度</h3><p>处理机调度是指将CPU资源在可运行实体之间的分配。（核心级）线程是CPU资源分配的基本单位，如果线程是在用户级实现的，操作系统实际调度的实体是进程。</p>
+<p>从资源角度看,该算法确定了处理机的分配策略, 故称其为<strong>处理机调度算法</strong>；<br>从资源使用者角度看,该算法确定了进程运行的次序,故称其为<strong>进程调度算法</strong>。 </p>
+<p>处理机调度需要解决的问题：<br>确定调度算法（分配原则）、确定调度时机（何时分配）、给出调度过程（如何分配）</p>
+<p>进程调度的两种方式：<br>非抢占式：不允许某进程抢占已经分配出去的处理机<br>抢占方式：允许调度程序根据某种原则，暂停正在执行的进程，将处理机重新分配给另一进程</p>
+<p>抢占原则：优先权原则、短作业（进程）优先原则、时间片原则</p>
+<h4 id="调度算法（8大）"><a href="#调度算法（8大）" class="headerlink" title="调度算法（8大）"></a>调度算法（8大）</h4><ol>
+<li><p>先到先服务算法 (First-Come, First-Served, FCFS)<br>按照进程申请CPU的次序(即进程进入就绪状态的次序)进行调度。非抢占式。</p>
+<p>FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用于 I/O 繁忙型作业的系统。<img src="https://s2.loli.net/2022/07/16/3WojsitaDMVONlH.png" alt="image-20220618163851843" style="zoom:50%;"></p>
+</li>
+<li><p>短作业优先 (Shortest Job First，SJF)<br>按<strong>CPU阵发时间</strong>由小到大的次序调度。</p>
+<p>对长作业不利，容易造成极端现象</p>
+<img src="https://s2.loli.net/2022/07/16/9NOu8P3TKGos5MZ.png" alt="image-20220618164237380" style="zoom:50%;">
+<img src="https://s2.loli.net/2022/07/16/4LoliusdYfCOm9k.png" alt="image-20220619095344844" style="zoom:50%;"></li>
+<li><p>最高响应比优先 (Highest Response Ratio Next,HRN) </p>
+<img src="https://s2.loli.net/2022/07/16/1qXfep7an8MOu4S.png" alt="image-20220618170114095" style="zoom:50%;">
+                                                                    $优先权(响应比) = \frac{等待时间+执行时间}{执行时间}$，优先权大的先执行</li>
+<li><p>最高优先数法 (Highest Priority First，HPF)<br>优先数法的基本思想：每个进程的PCB中有一个用数字表示的优先数。当需要进行处理机分配时,系统在可运行进程中选择优先数最高者使其投入运行。<br>进程优先数的大小应与进程所对应事件的紧迫程度相对应。如果一个进程所对应事件比较紧迫,则其优先数应较高；如果一个进程所对应事件不太紧迫,则其优先数可较低。可见，进程的优先数反映了进程运行的优先级别，故又称为优先级法。<br>静态优先数、动态优先数<br>优点：资源利用率高，公平性好；缺点：开销较大，实现较为复杂</p>
+</li>
+<li><p>循环轮转法 (Round Robin，RR)<br>循环轮转算法的基本思想：系统为每个进程规定一个时间片(time slice),所有进程按其时间片的长短轮流地运行。<br>基本轮转：时间片长度相同且不变<br>改进轮转：时间片长度不同或可变</p>
+<ul>
+<li>如果时间片设得太短会导致过多的进程上下文切换，降低了 CPU 效率；</li>
+<li>如果设得太长又可能引起对短作业进程的响应时间变长</li>
+</ul>
+<p>适合于分时系统</p>
+</li>
+<li><p>分类排队法 (Multi Level Queues，MLQ)<br>多个就绪队列将系统中所有可运行进程按某种原则加以分类,进程被分入不同的就绪队列中。</p>
+<img src="https://s2.loli.net/2022/07/16/Tboimfe2saYcGk4.png" alt="image-20220618192035062" style="zoom:50%;"></li>
+<li><p>最短剩余时间法 (Shortest Remaining Time Next, SRTN) </p>
+<p>可剥夺的短作业优先调度算法<br>当CPU空闲时，选择剩余时间最短的进程或线程。   当一个新进程或线程到达时，若新进程比当前运行进程的的剩余运行时间短则切换运行进程可剥夺。</p>
+</li>
+<li><p>反馈排队法 (Feed Back，FB)<br>有多个进程就绪队列,每个队列中通常采用时间片轮转调度算法；每个队列的时间片不同；进程可以在不同的就绪队列之间移动。<br> 短进程优先处理、设备资源利用率高、系统开销小</p>
+</li>
+</ol>
+<p>进程运行需要处理机资源、IO操作需要设备资源，两类交替占用<br>==CPU阵发期==：对处理器的一次连续使用<br>==I/O阵发期==：对设备的一次连续使用<br>进程运行行为：    CPU阵发期→I/O阵发期→CPU阵发期→…→I/O阵发期→CPU阵发期 （执行暂停执行暂停）<br>==阵发时间==：处于CPU阵发期的进程所需要的处理时间</p>
+<p>==周转时间==(turnaround time)：由就绪开始时刻到处理完毕时刻的时间；       结束时间-提交(到达)时间<br>==带权周转时间==：周转时间/运行时间<br>==平均周转时间==(average …)：所有进程的周转时间之和与进程个数的比值；<br>==等待时间==：周转时间与处理时间之差；<br>==平均等待时间==：所有进程的等待时间之和与进程个数的比值。</p>
+<p>==非剥夺式调度==（非抢占式调度）：一个进程不能从正在运行的进程那抢占CPU<br>剥夺式调度：一个进程可以从正在运行的进程那抢占CPU</p>
+<h4 id="性能评价指标"><a href="#性能评价指标" class="headerlink" title="性能评价指标"></a>性能评价指标</h4><p>CPU利用率、吞吐量、周转时间、响应时间、系统开销</p>
+<p>何时发生调度？   进程切换（一个进程占有处理机）的时候会发生处理机调度</p>
+<p>何时可能调用处理机调度程序？  首先要有==中断==，进入到管态；其次要发生==进程切换==</p>
+<p>何时会发生进程切换?  中断完成后，原进程不具备运行条件，就一定会发生进程切换; 原进程具备运行条件，则可能切换也可能不切换，就和调度策略有关</p>
+<p>什么中断会产生切换?    一定会切换的中断，进程运行终止的中断，进程等待资源中断，请求I/O中断等; 可能引起切换的中断，时钟中断….等。</p>
+<p>中断是进程切换的必要条件<br>中断是系统由用户态转换为系统态的必要条件。据此,假如在时刻T1与时刻T2之间发生了进程切换,则在时刻T1与时刻T2之间一定发生过中断。中断是进程切换的前提,也可以说，操作系统是中断驱动的。</p>
+<p><strong>下降进程</strong>指的是当前即将被中断运行的进程。<br><strong>上升进程</strong>指的是按照调度算法从就绪队列中选择的一个即将被运行的进程。</p>
+<p>处理机调度过程：</p>
+<ol>
+<li>保存下降调度现场。保存下降进程现场到其进程控制块PCB中。 (系统栈=&gt;PCB)<br>==中断响应时==, 中断装置将被中断进程的中断向量压入系统栈。<br>==中断响应后==, 中断处理程序将被中断进程的其它断点信息,如寄存器内容等压入系统栈。<br>==中断处理后==, 若需进程切换,则将系统栈中的现场信息弹出,送入下降进程的PCB。</li>
+<li>选择将要运行到进程。处理机调度算法在就绪队列中选择一个进程，使其投入运行</li>
+<li>恢复上升进程现场。由于进程下降时已将其现场信息保存在对应的PCB中,故进程上升时由其PCB中的信息恢复现场(PCB=&gt;寄存器)。</li>
+</ol>
+<h3 id="调度级别和多级调度"><a href="#调度级别和多级调度" class="headerlink" title="调度级别和多级调度"></a>调度级别和多级调度</h3><h4 id="三个级别"><a href="#三个级别" class="headerlink" title="三个级别"></a>三个级别</h4><p>处理机调度（进程调度）、中级调度、高级调度（作业调度）</p>
+<img src="https://s2.loli.net/2022/07/16/o6WkUBMmXJ1jhea.png" alt="image-20220618195452654" style="zoom:50%;">
+
+<h4 id="交换调度（中级）"><a href="#交换调度（中级）" class="headerlink" title="交换调度（中级）"></a>交换调度（中级）</h4><p>交换是进程在内存与外存之间的调度，引入一个挂起态</p>
+<p>为什么说中级调度能减少并发度从而降低系统开销？<br><strong>中级调度</strong>是系统<strong>控制并发度</strong>的一个调度级别。系统并发度过高时，将内存中的某些进程暂时<strong>交换</strong>到外存，待系统并发度较低时再调回内存。    </p>
+<img src="https://s2.loli.net/2022/07/16/IYDrz2aUyEiuFZb.png" alt="image-20220618200106698" style="zoom:50%;">
+
+
+
+<h3 id="实时调度"><a href="#实时调度" class="headerlink" title="实时调度"></a>实时调度</h3><p><strong>实时调度</strong>：满足实时任务各自时间约束条件的调度称为<strong>实时调度</strong>。</p>
+<p><strong>实时任务</strong>：具有明确时间约束的计算任务，如某时刻前必须开始处理，某时刻前必须处理完毕等。</p>
+<p>指标（7个）</p>
+<p><strong>就绪时间</strong>(ready time)：实时任务产生并<strong>可以开始处理</strong>的时间称为就绪时间；</p>
+<p><strong>开始截止期</strong>(starting deadline)：实时任务最迟开始处理时间称为开始截止期；</p>
+<p><strong>处理时间</strong>(processing time)：实时任务处理所需要的处理机时间称为处理时间；</p>
+<p><strong>完成截止期</strong>(completion deadline)：实时任务最迟完成时间称为完成截止期；</p>
+<p><strong>发生周期</strong>(occurring period)：周期性实时任务的发生间隔时间称为发生周期；</p>
+<p><strong>发生频率</strong>(Occurring frequency)：单位时间内实时周期性任务发生的次数称为发生频率。</p>
+<p><strong>优先级</strong>：实时任务的相对紧迫程度。</p>
+<p>实时调度的必要条件：</p>
+<p>​            $\sum_{i=1}^{n}\frac{C_i}{T-i}\geq1$</p>
+<p>算法：</p>
+<ol>
+<li>最早截止期优先算法(EDF)</li>
+<li>速率单调调度(RMS)</li>
+<li>最低松弛度优先（LLF）</li>
+</ol>
+<h3 id="多处理机调度"><a href="#多处理机调度" class="headerlink" title="多处理机调度"></a>多处理机调度</h3>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhangjy1014.github.io/2023/03/24/Ch3-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/" title="Ch3_中断与处理机调度" target="_blank" rel="external">https://zhangjy1014.github.io/2023/03/24/Ch3-中断与处理机调度/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/zhangjy1014" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/zhangjy1014" target="_blank"><span class="text-dark">JY</span><small class="ml-1x">student</small></a></h3>
+        <div>o(≧v≦)o</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2023/03/24/Ch2-%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E4%B8%8E%E4%BD%9C%E4%B8%9A/" title="Ch2_进程线程与作业"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2023/03/24/Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF/" title="Ch4_互斥同步与通讯"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangjy1014" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://instagram.com" target="_blank" title="Instagram" data-toggle=tooltip data-placement=top><i class="icon icon-instagram"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'K6CcYTognPssARuNej3sBRGI-gzGzoHsz',
+    appKey: 'STHhHmEfxkvo3KXT3v6SrAlw',
+    placeholder: '评论两句？',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

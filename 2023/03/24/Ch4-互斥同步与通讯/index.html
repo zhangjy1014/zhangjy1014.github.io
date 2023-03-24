@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Ch4_互斥同步与通讯 | JY&#39;s Blog</title>
+  <meta name="description" content="Ch4_互斥同步与通讯[toc] 基本概念前趋图有向无环图，表示进程执行的先后顺序。前趋、后继。初始结点：没有前趋结点，终止结点：没有后继结点每个结点可以有权重，表示该结点包含的程序量或执行时间 顺序执行 内部顺序性：对于一个进程内，所有指令按序执行。S1-&gt;S2-&gt;S3…. 外部顺序性：对于多个进程（进程间），所有进程活动依次执行P1-&gt;P2-&gt;P3…  特点：  顺序性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ch4_互斥同步与通讯">
+<meta property="og:url" content="https://zhangjy1014.github.io/2023/03/24/Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF/index.html">
+<meta property="og:site_name" content="ZhangJY_blog">
+<meta property="og:description" content="Ch4_互斥同步与通讯[toc] 基本概念前趋图有向无环图，表示进程执行的先后顺序。前趋、后继。初始结点：没有前趋结点，终止结点：没有后继结点每个结点可以有权重，表示该结点包含的程序量或执行时间 顺序执行 内部顺序性：对于一个进程内，所有指令按序执行。S1-&gt;S2-&gt;S3…. 外部顺序性：对于多个进程（进程间），所有进程活动依次执行P1-&gt;P2-&gt;P3…  特点：  顺序性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/hCKxRbdsm2rPTn3.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/GWIug3clnTjv75U.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/YlIEjeFyWG7O1DP.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/mP8HhfNj4JVMBaD.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/Hy9DsFnRVWot5Gv.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/ZNP95rRoEydnpk1.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/hNzoVUSAyT6GYEL.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/NgyFzXo2PbpOE9j.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/fNPs9ytgIJncV2x.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/f3lN4DzF6WvUmYe.png">
+<meta property="og:image" content="https://img-blog.csdn.net/20180405154543432">
+<meta property="article:published_time" content="2023-03-24T12:41:25.000Z">
+<meta property="article:modified_time" content="2023-03-24T13:40:23.434Z">
+<meta property="article:author" content="ZhangJY">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/07/16/hCKxRbdsm2rPTn3.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhangjy1014.github.io/2023/03/24/Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="ZhangJY_blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhangjy1014" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">JY</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">student</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangjy1014" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://instagram.com" target="_blank" title="Instagram" data-toggle=tooltip data-placement=top><i class="icon icon-instagram"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Computer-Science/">Computer Science</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Software-Engineering/">Software Engineering</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/blog/">blog</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Computer-Networks/" rel="tag">Computer Networks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software-analysis/" rel="tag">Software analysis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Software-design/" rel="tag">Software design</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Computer-Networks/" style="font-size: 13px;">Computer Networks</a> <a href="/tags/OS/" style="font-size: 14px;">OS</a> <a href="/tags/Software-analysis/" style="font-size: 13px;">Software analysis</a> <a href="/tags/Software-design/" style="font-size: 13.5px;">Software design</a> <a href="/tags/hexo/" style="font-size: 13.5px;">hexo</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" class="title">Ch1_操作系统概述</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch2-%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E4%B8%8E%E4%BD%9C%E4%B8%9A/" class="title">Ch2_进程线程与作业</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch3-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/" class="title">Ch3_中断与处理机调度</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF/" class="title">Ch4_互斥同步与通讯</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Computer-Science/">Computer Science</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/24/Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF/" class="title">Ch5_死锁和饥饿</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF"><span class="toc-number">1.</span> <span class="toc-text">Ch4_互斥同步与通讯</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%B6%8B%E5%9B%BE"><span class="toc-number">1.1.1.</span> <span class="toc-text">前趋图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E6%89%A7%E8%A1%8C"><span class="toc-number">1.1.2.</span> <span class="toc-text">顺序执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E6%89%A7%E8%A1%8C"><span class="toc-number">1.1.3.</span> <span class="toc-text">并发执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%B9%B6%E5%8F%91%E6%89%A7%E8%A1%8C%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.1.4.</span> <span class="toc-text">进程并发执行的条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%BA%92%E6%96%A5"><span class="toc-number">1.2.</span> <span class="toc-text">进程互斥</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E8%B5%B7%E4%BA%92%E6%96%A5%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.2.1.</span> <span class="toc-text">引起互斥的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.2.</span> <span class="toc-text">一些概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%92%E6%96%A5%E8%BD%AF%E4%BB%B6%E4%B8%8E%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">互斥软件与硬件实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">硬件实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5"><span class="toc-number">1.2.3.</span> <span class="toc-text">进程同步</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5-1"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">进程同步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">同步机制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E7%81%AF%E4%B8%8EPV%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.3.2.1.</span> <span class="toc-text">信号灯与PV操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.3.2.2.</span> <span class="toc-text">生产者-消费者问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%BB%E8%80%85-%E5%86%99%E8%80%85%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.3.2.3.</span> <span class="toc-text">读者-写者问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%93%B2%E5%AD%A6%E5%AE%B6%E8%BF%9B%E9%A4%90%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.3.2.4.</span> <span class="toc-text">哲学家进餐问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E8%AE%AF"><span class="toc-number">1.2.4.</span> <span class="toc-text">进程通讯</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Ch4-互斥同步与通讯" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ch4_互斥同步与通讯
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/03/24/Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF/" class="article-date">
+	  <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Computer-Science/">Computer Science</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/OS/" rel="tag">OS</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/03/24/Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Ch4-互斥同步与通讯"><a href="#Ch4-互斥同步与通讯" class="headerlink" title="Ch4_互斥同步与通讯"></a>Ch4_互斥同步与通讯</h1><p>[toc]</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="前趋图"><a href="#前趋图" class="headerlink" title="前趋图"></a>前趋图</h3><p>有向无环图，表示进程执行的先后顺序。<br>前趋、后继。<br>初始结点：没有前趋结点，终止结点：没有后继结点<br>每个结点可以有权重，表示该结点包含的程序量或执行时间</p>
+<h3 id="顺序执行"><a href="#顺序执行" class="headerlink" title="顺序执行"></a>顺序执行</h3><ol>
+<li>内部顺序性：对于一个进程内，所有指令按序执行。<br>S1-&gt;S2-&gt;S3….</li>
+<li>外部顺序性：对于多个进程（进程间），所有进程活动依次执行<br>P1-&gt;P2-&gt;P3…</li>
+</ol>
+<p>特点：</p>
+<ol>
+<li>顺序性：严格按照次序。</li>
+<li>封闭性：程序运行过程中独占系统的全部资源，不受其他程序和外界因素影响。</li>
+<li>可再现性：执行结果只与初始条件有关。</li>
+</ol>
+<h3 id="并发执行"><a href="#并发执行" class="headerlink" title="并发执行"></a>并发执行</h3><ol>
+<li><p>内部并发性：程序内部并发<br><img src="https://s2.loli.net/2022/07/16/hCKxRbdsm2rPTn3.png" alt="image-20220601170634081"></p>
+</li>
+<li><p>外部并发性：程序直接并发</p>
+<img src="https://s2.loli.net/2022/07/16/GWIug3clnTjv75U.png" alt="image-20220601170646378" style="zoom:50%;"></li>
+</ol>
+<p>特点：</p>
+<ol>
+<li>交叉性：一个程序的某些指令可交叉执行</li>
+<li>非封闭性：资源不独占</li>
+<li>不可再现性：每次运行的并发情况不同（并发执行结果不唯一）</li>
+<li>间断性：执行-暂停-执行-暂停</li>
+</ol>
+<h3 id="进程并发执行的条件"><a href="#进程并发执行的条件" class="headerlink" title="进程并发执行的条件"></a>进程并发执行的条件</h3><p>==读集（R集）==：程序Pi在执行过程中需要读取的变量的集合</p>
+<p>==写集（W集）==：程序Pi在执行过程中需要改变的所有变量的集合</p>
+<p>例：有语句$c = a + b, v = c -1$，<br>读集：$R(c:=a+b)={a,b},\quad R(v:=c-1)={c}$</p>
+<p>写集：$$W(c:=a+b)={c},\quad W(v:=c- 1)={v}$$</p>
+<p>伯恩斯坦条件：若程序p1, p2满足以下条件，则能够保持可再现性，因而可以并发执行：</p>
+<p>$$R(p1)∩W(p2)∪R(p2)∩W(p1)∪W(p1)∩W(p2)=Φ$$</p>
+<h2 id="进程互斥"><a href="#进程互斥" class="headerlink" title="进程互斥"></a>进程互斥</h2><h3 id="引起互斥的原因"><a href="#引起互斥的原因" class="headerlink" title="引起互斥的原因"></a>引起互斥的原因</h3><p>与时间相关错误：一种与进程的推进速度有关的错误。</p>
+<p>发生与时间相关错误的原因：1.交叉 2.涉及到公共变量。<br>根本原因：多个进程同时对变量  $$x$$ 操作，就是并发竞争对共享资源产生竞争。</p>
+<h3 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h3><p>进程互斥定义：两个或两个以上的进程不能同时进入就是使用，访问关于同一组共享变量的临界区,否则可能发生与时间有关的错误（间接制约）,这种现象被称作进程互斥。</p>
+<p>临界资源：可被多个进程访问的变量。（公共变量、共享变量）</p>
+<p>临界区：访问临界资源的程序段。（临界段）</p>
+<p>进程互斥实现原则</p>
+<p>临界区的管理原则（3个）：</p>
+<ol>
+<li>互斥性原则：任意时刻最多只能有一个进程处于关于同一组共享变量的临界区中。</li>
+<li>有限等待性原则：一个请求进入临界区的进程，应在有限时间内能够进入临界区。</li>
+<li>进展性原则：临界区空闲时，竞争临界区的多个进程在有限时间内确定下一个进入临界区的进程。</li>
+</ol>
+<p>临界区资源的调度原则（3个）：</p>
+<ol>
+<li><p>当关于某一组共享变量的所有临界区均为空闲时，一个要求进入该组共享变量某一临界区的进程应当能够立即进入</p>
+</li>
+<li><p>当关于某一组共享变量的所有临界区被占用时，一个要求进入该组共享变量某一临界区的进程应等待</p>
+</li>
+<li><p>当一个进程离开某一共享变量的某一临界区时，应允许某一处于等待的进程进入。</p>
+</li>
+</ol>
+<p>五大原则：空闲让进，忙则等待，有限等待，让权等待，驻留有限</p>
+<h4 id="互斥软件与硬件实现"><a href="#互斥软件与硬件实现" class="headerlink" title="互斥软件与硬件实现"></a>互斥软件与硬件实现</h4><p>软件实现：</p>
+<p>Dekker算法</p>
+<img src="https://s2.loli.net/2022/07/16/YlIEjeFyWG7O1DP.png" alt="image-20220601202338825" style="zoom:50%;">
+
+<p>面包店算法</p>
+<img src="https://s2.loli.net/2022/07/16/mP8HhfNj4JVMBaD.png" alt="image-20220601203342102" style="zoom:50%;">
+
+<img src="https://s2.loli.net/2022/07/16/Hy9DsFnRVWot5Gv.png" alt="image-20220601203404535" style="zoom:50%;">
+
+<h4 id="硬件实现"><a href="#硬件实现" class="headerlink" title="硬件实现"></a>硬件实现</h4><p>测试并建立指令：取出内存单元的值，再该单元赋上一个新值</p>
+<p>交换指令：将两个内存单元中的内容交换</p>
+<p><del>公平性互斥算法</del><br><img src="https://s2.loli.net/2022/07/16/ZNP95rRoEydnpk1.png" alt="image-20220601203730348" style="zoom:50%;"></p>
+<p>开关中断指令：进程进入临界区，关中断；离开临界区，开中断<br>优点：实现效率高、不存在忙式等待、简单易行<br>缺点：仅在单CPU有效、影响系统并发性</p>
+<h3 id="进程同步"><a href="#进程同步" class="headerlink" title="进程同步"></a>进程同步</h3><h4 id="进程同步-1"><a href="#进程同步-1" class="headerlink" title="进程同步"></a>进程同步</h4><p>定义：一组进程，为了协调其推进速度，在某些点处需要相互等待与相互唤醒，进程之间的这种相互制约关系。</p>
+<p>注意：进程互斥可发生在任意两个进程之间，进程同步发生于具有逻辑关系的进程之间。</p>
+<h4 id="同步机制"><a href="#同步机制" class="headerlink" title="同步机制"></a>同步机制</h4><h5 id="信号灯与PV操作"><a href="#信号灯与PV操作" class="headerlink" title="信号灯与PV操作"></a>信号灯与PV操作</h5><p>原语：一段不可间断执行的程序</p>
+<p>P操作对应申请资源、V操作对应释放资源</p>
+<img src="https://s2.loli.net/2022/07/16/hNzoVUSAyT6GYEL.png" alt="image-20220619112419381" style="zoom:50%;">
+
+<p>Ø P原语操作的动作是： 指的是记录型信号量<br> （1）    sem减1；<br> （2）    若sem减1后仍大于或等于零，则进程继续执行；<br> （3）    若sem减1后小于零，则该进程被阻塞后进入与该信号相对应的队列中，然后转进程调度。</p>
+<p>Ø V原语操作的动作是： 指的是记录型信号量<br> （1）    sem加1；<br> （2）    若相加结果大于零，则进程继续执行；<br> （3）    若相加结果小于或等于零，则从该信号的等待队列中唤醒一等待进程，然后再返回原进程继续执行或转进程调度。</p>
+<p>注意：就是P,V操作对于每一个进程来说，都只能进行一次。而且必须成对使用。且在P,V原语执行期间不允许有中断的发生。</p>
+<p>进程同步：进程严格轮流执行</p>
+<p>进程互斥：瞎几把执行，可能也会像进程同步一样轮流执行。</p>
+<p>进程同步和互斥的判断：那么我们怎么来做题呢？首先我们看到进程同步比进程互斥的要求更强，条件更严格，因为它是严格要轮流执行的；而进程互斥可能在巧合时，是轮流执行的。从这点考虑：我们判断两个进程之间关系，如果是进程同步，那就不用再考虑他们之间的互斥（因为肯定满足互斥），这是个做此类题的原则；如果只有互斥，那就没啥。</p>
+<p><strong>第一步：确定是进程同步还是进程互斥还是混合问题？</strong></p>
+<p>如果：进程之间只有公有资源的竞争，就是进程互斥问题；</p>
+<p>如果：同样的进程之间有公有资源的竞争也有直接制约，则只考虑直接制约的进程同步问题。如例3。生产者和消费者问题的第一例子。</p>
+<p>如果：一些进程之间是进程同步问题，另一些进程之间是进程互斥问题，则是混合问题。如生产者和消费者问题的第三例子</p>
+<h5 id="生产者-消费者问题"><a href="#生产者-消费者问题" class="headerlink" title="生产者-消费者问题"></a>生产者-消费者问题</h5><p>1.一个生产者、一个消费者、共用一个缓冲区</p>
+<img src="https://s2.loli.net/2022/07/16/NgyFzXo2PbpOE9j.png" alt="image-20220619162540091" style="zoom:50%;">
+
+<p>2.一个生产者、一个消费者、共用n个环形缓冲区</p>
+<img src="https://s2.loli.net/2022/07/16/fNPs9ytgIJncV2x.png" alt="image-20220619162733874" style="zoom:50%;">
+
+<p>3.一组生产者，一组消费者，公用n个环形缓冲区</p>
+<img src="https://s2.loli.net/2022/07/16/f3lN4DzF6WvUmYe.png" alt="image-20220619162820365" style="zoom:50%;">
+
+
+
+<h5 id="读者-写者问题"><a href="#读者-写者问题" class="headerlink" title="读者-写者问题"></a>读者-写者问题</h5><p>问题：一个数据对象（数据文件或记录）可被多个进程共享。其中，reader进程要求读，writer 进程要求写或修改。允许多个reader进程同时读共享数据，但绝不允许一个writer进程与其它的reader进程或writer进程同时访问，即writer进程必须与其它进程互斥访问共享对象。</p>
+<p>分析：<br>首先：进程是读者进程和写者进程。</p>
+<p>同步：无，因为要求中没有说明读者和写者要合作。</p>
+<p>互斥：读者和写者之间有互斥；写者之间有互斥。</p>
+<p>其次：信号量及其值。虽然进程种类不同，但是抢的资源相同，就这么一个，因此公有信号量的值是1。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">semaphore  rmutex=<span class="number">1</span>;  </span><br><span class="line">semaphore  wmutex=<span class="number">1</span>; </span><br><span class="line"><span class="keyword">int</span>  readcount=<span class="number">0</span>; </span><br><span class="line"><span class="built_in">Main</span>()</span><br><span class="line">&#123;</span><br><span class="line">  <span class="function">cobegin</span></span><br><span class="line"><span class="function">     <span class="title">reader</span><span class="params">()</span></span>;</span><br><span class="line">     <span class="built_in">writer</span>();</span><br><span class="line">  coend</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//这个题最好把操作执行顺序画图。再判断</span></span><br><span class="line"><span class="built_in">Reader</span>()   </span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">   &#123;</span><br><span class="line">     <span class="built_in">p</span>(rmutex); </span><br><span class="line">     <span class="keyword">if</span>(readcount==<span class="number">0</span>)  <span class="built_in">p</span>(wmutex);<span class="comment">/*第一位读者阻止写者*/</span></span><br><span class="line"> 		 readcount++;   <span class="comment">//此语句是rmutex的临界区</span></span><br><span class="line"> 		 <span class="built_in">V</span>(rmutex);  <span class="comment">//readcount是临界资源，readcount++是临界区，因此执行完，必须释放</span></span><br><span class="line"> 		 读数据集； </span><br><span class="line">     <span class="built_in">p</span>(rmutex); </span><br><span class="line">     readcount--;     <span class="comment">//此语句是rmutex的临界区</span></span><br><span class="line">     <span class="keyword">if</span>(readcount==<span class="number">0</span>) <span class="built_in">v</span>(wmutex);<span class="comment">/*第末位读者允许写者进即只有最后一位读者出去，才执行v(wmutex)。*/</span></span><br><span class="line">     <span class="built_in">V</span>(rmutex);                       </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Writer</span>()</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">   &#123;</span><br><span class="line">       <span class="built_in">p</span>(wmutex); <span class="comment">//阻止其它进程（读、写）进</span></span><br><span class="line">       写数据集； </span><br><span class="line">			 <span class="built_in">V</span>(wmutex); <span class="comment">//允许其它进程（读、写）进</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="哲学家进餐问题"><a href="#哲学家进餐问题" class="headerlink" title="哲学家进餐问题"></a>哲学家进餐问题</h5><p>5个哲学家围坐成一个圈，左右手各放着一只筷子，思考完了就拿起筷子吃饭。</p>
+<p>我们用数组表示最合适：<strong>semaphore stick[5]={1,1,1,1,1};</strong> </p>
+<p>解：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Philosopher（<span class="keyword">int</span> i）</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">   &#123;</span><br><span class="line">    思考;  </span><br><span class="line">    p(stick[i]); </span><br><span class="line">    P(stick[(i+<span class="number">1</span>)%<span class="number">5</span>]); </span><br><span class="line">    进餐； </span><br><span class="line">    V(stick[i]);</span><br><span class="line">    V(stick[(i+<span class="number">1</span>)%<span class="number">5</span>]);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>死锁情况：每人都拿起左侧的筷子<br>死锁解决：1. 限制只让四个人吃饭。至多只允许四位哲学家同时去拿左边的筷子，这样就保证至少有一位哲学家能进餐并释放筷子，得以让其他人进餐。2、 仅当哲学家的左，右筷子都可用时，才允许他拿起进餐。3、规定奇数号哲学家先拿他左边的筷子，再拿右边的筷子；偶数的哲学家相反。这样也总保证一位哲学家能够得到筷子进餐。</p>
+<p>例：有桥如下图所示，车流如箭头所示，桥上不允许两车交汇，但允许同方向多辆车依次通过（即桥上可以有多个同方向的车）。用P、V操作实现交通管理以防止桥上堵塞【北京大学 1992】</p>
+<p><img src="https://img-blog.csdn.net/20180405154543432" alt="img"></p>
+<p><strong>解析：</strong>这个题目要解决：南、北互斥（桥上不允许两车交汇，相当于“读、写互斥”），需要设置一个互斥信号量mutex，初值为1；南、南共享（相当于“读、读共享”），套用实现“读、读共享”的模式，需要设置一个共享变量southcount，用于记录当前桥上向南行驶过桥的车辆数目，初值为0，再设置一个互斥信号量smutex，实现对southcount的互斥访问；北、北共享（也相当于“读、读共享”），套用实现“读、读共享”的模式，同理可得。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">semaphore mutex = <span class="number">1</span>;<span class="comment">// 作为桥的互斥访问信号量</span></span><br><span class="line">semaphore smutex = <span class="number">1</span>;<span class="comment">// 作为southcount的互斥访问信号量</span></span><br><span class="line">semaphore nmutex = <span class="number">1</span>;<span class="comment">// 作为northcount的互斥访问信号量</span></span><br><span class="line"><span class="keyword">int</span> southcount = <span class="number">0</span>;<span class="comment">// 记录南方向的车辆的数量</span></span><br><span class="line"><span class="keyword">int</span> northcount = <span class="number">0</span>;<span class="comment">// 记录北方向的车辆的数量</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">south</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		P(smutex);</span><br><span class="line">		<span class="keyword">if</span>(southcount == <span class="number">0</span>)</span><br><span class="line">			P(mutex);    <span class="comment">//没车就申请资源，阻止另一方向的车</span></span><br><span class="line">		southcount++;</span><br><span class="line">		V(smutex);</span><br><span class="line">		<span class="comment">// 南方车辆通过</span></span><br><span class="line">		P(smutex);</span><br><span class="line">		southcount--;</span><br><span class="line">		<span class="keyword">if</span>(southcount == <span class="number">0</span>)</span><br><span class="line">			V(mutex);</span><br><span class="line">		V(smutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">north</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		P(nmutex);</span><br><span class="line">		<span class="keyword">if</span>(northcount == <span class="number">0</span>)</span><br><span class="line">			P(mutex);</span><br><span class="line">		northcount++;</span><br><span class="line">		V(nmutex);</span><br><span class="line">		<span class="comment">// 北方车辆通过</span></span><br><span class="line">		P(nmutex);</span><br><span class="line">		northcount--;</span><br><span class="line">		<span class="keyword">if</span>(northcount == <span class="number">0</span>)</span><br><span class="line">			V(mutex);</span><br><span class="line">		V(nmutex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>信号量的当前值如果是正值N，该值表示有N个可用资源。<br>如果为0，则表示所有资源全部被分配，同时没有进程处于等待状态<br>如果为负数N，则表示全部资源分配完毕，且还有N个进程处于等待该资源的状态。</p>
+<p>条件信号量</p>
+<h3 id="进程通讯"><a href="#进程通讯" class="headerlink" title="进程通讯"></a><del>进程通讯</del></h3><p>进程之间的互斥、同步及信息交换统称进程通讯</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhangjy1014.github.io/2023/03/24/Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF/" title="Ch4_互斥同步与通讯" target="_blank" rel="external">https://zhangjy1014.github.io/2023/03/24/Ch4-互斥同步与通讯/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/zhangjy1014" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/zhangjy1014" target="_blank"><span class="text-dark">JY</span><small class="ml-1x">student</small></a></h3>
+        <div>o(≧v≦)o</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2023/03/24/Ch3-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/" title="Ch3_中断与处理机调度"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2023/03/24/Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF/" title="Ch5_死锁和饥饿"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangjy1014" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://twitter.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://instagram.com" target="_blank" title="Instagram" data-toggle=tooltip data-placement=top><i class="icon icon-instagram"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'K6CcYTognPssARuNej3sBRGI-gzGzoHsz',
+    appKey: 'STHhHmEfxkvo3KXT3v6SrAlw',
+    placeholder: '评论两句？',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

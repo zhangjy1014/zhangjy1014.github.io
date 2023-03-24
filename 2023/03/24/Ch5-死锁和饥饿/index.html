@@ -17,45 +17,30 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>基于距离向量算法的路由协议RIP | JY&#39;s Blog</title>
-  <meta name="description" content="一、实验目的理解基于距离向量算法的路由协议 RIP。 二、实验内容和要求1、用 Cisco Packet Tracer 研究 RIP； 2、支持多个路由器； 3、学习使用 Cisco Packet Tracer 的 Simulation 模式，通过捕获的数据分析 RIP 报文格式，并在实验报告体现； 三、实验过程3.1建立网络拓扑结构在Packet Tracer中，建立如图所示的网络拓扑结构:">
+  <title>Ch5_死锁和饥饿 | JY&#39;s Blog</title>
+  <meta name="description" content="Ch5_死锁和饥饿[toc] 死锁一些概念死锁的概念定义：由于进程竞争资源而形成的僵持状态。           一组进程中的每个进程均等待此组进程中某一其它进程占有的、因而永远无法得到的资源, 这种因进程竞争资源而引起的僵持现象称进程死锁。 几个有用结论：    (1)参与死锁的进程数至少为二；    (2)参与死锁的所有进程均等待资源；    (3)参与死锁的进程至少有两个已占有资源；">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于距离向量算法的路由协议RIP">
-<meta property="og:url" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/index.html">
+<meta property="og:title" content="Ch5_死锁和饥饿">
+<meta property="og:url" content="https://zhangjy1014.github.io/2023/03/24/Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF/index.html">
 <meta property="og:site_name" content="ZhangJY_blog">
-<meta property="og:description" content="一、实验目的理解基于距离向量算法的路由协议 RIP。 二、实验内容和要求1、用 Cisco Packet Tracer 研究 RIP； 2、支持多个路由器； 3、学习使用 Cisco Packet Tracer 的 Simulation 模式，通过捕获的数据分析 RIP 报文格式，并在实验报告体现； 三、实验过程3.1建立网络拓扑结构在Packet Tracer中，建立如图所示的网络拓扑结构:">
+<meta property="og:description" content="Ch5_死锁和饥饿[toc] 死锁一些概念死锁的概念定义：由于进程竞争资源而形成的僵持状态。           一组进程中的每个进程均等待此组进程中某一其它进程占有的、因而永远无法得到的资源, 这种因进程竞争资源而引起的僵持现象称进程死锁。 几个有用结论：    (1)参与死锁的进程数至少为二；    (2)参与死锁的所有进程均等待资源；    (3)参与死锁的进程至少有两个已占有资源；">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/1.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/2.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/3.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/4.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/5.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/6.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/7.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/8.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/9.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/10.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/11.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/12.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/13.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/14.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/15.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/16.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/17.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/18.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/19.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/20.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/21.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/22.png">
-<meta property="og:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/23.png">
-<meta property="article:published_time" content="2022-01-15T08:42:27.000Z">
-<meta property="article:modified_time" content="2022-01-19T08:10:07.478Z">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/o4HfmbetcAPOsqT.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/qfbDmjNQG3etYRu.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/gOIwVepxBCNizDo.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/nGJtu4jioNfrxED.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/EY8KM2sBQ9oFTbD.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/Tc7rfzD5tyjCsJ6.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/MsIPUdecBrTRgfZ.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/hHEF3Qnk1MTuwbI.png">
+<meta property="article:published_time" content="2023-03-24T12:41:25.000Z">
+<meta property="article:modified_time" content="2023-03-24T13:40:58.394Z">
 <meta property="article:author" content="ZhangJY">
-<meta property="article:tag" content="Computer Networks">
+<meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhangjy1014.github.io/2022/01/15/RIP-Route/1.png">
+<meta name="twitter:image" content="https://s2.loli.net/2022/07/16/o4HfmbetcAPOsqT.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://zhangjy1014.github.io/2022/01/15/RIP-Route/index.html">
+  <link rel="canonical" href="https://zhangjy1014.github.io/2023/03/24/Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF/index.html">
   
     <link rel="alternate" href="/atom.xml" title="ZhangJY_blog" type="application/atom+xml">
   
@@ -340,21 +325,21 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">文章目录</h3>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-number">1.</span> <span class="toc-text">一、实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9%E5%92%8C%E8%A6%81%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">二、实验内容和要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">三、实验过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E5%BB%BA%E7%AB%8B%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">3.1建立网络拓扑结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0"><span class="toc-number">3.2.</span> <span class="toc-text">3.2配置参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1-PC%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 PC配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-Route-IP%E3%80%81RIP%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 Route IP、RIP配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C"><span class="toc-number">3.3.</span> <span class="toc-text">3.3测试网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1%E8%BF%9E%E9%80%9A%E6%80%A7%E6%B5%8B%E8%AF%95"><span class="toc-number">3.3.1.</span> <span class="toc-text">3.3.1连通性测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2%E4%BD%BF%E7%94%A8Simulation%E6%A8%A1%E5%BC%8F%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E5%8F%8A%E6%8A%A5%E6%96%87"><span class="toc-number">3.3.2.</span> <span class="toc-text">3.3.2使用Simulation模式查看网络及报文</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF"><span class="toc-number">1.</span> <span class="toc-text">Ch5_死锁和饥饿</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">1.1.</span> <span class="toc-text">死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">一些概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">死锁的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E7%9A%84%E7%B1%BB%E5%9E%8B%EF%BC%883%E5%A4%A7%E5%8E%9F%E5%9B%A0%EF%BC%89"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">死锁的类型（3大原因）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">死锁的处理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%9B%E5%A4%A7%E7%AD%96%E7%95%A5"><span class="toc-number">1.1.1.3.1.</span> <span class="toc-text">四大策略</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%8A%A8%E6%80%81"><span class="toc-number">1.1.1.3.2.</span> <span class="toc-text">静态动态</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E5%9B%BE"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">资源分配图</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E5%9B%BE%E7%BA%A6%E7%AE%80%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.1.1.4.1.</span> <span class="toc-text">资源分配图约简步骤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E5%AE%9A%E7%90%86"><span class="toc-number">1.1.1.4.2.</span> <span class="toc-text">死锁定理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E9%98%B2"><span class="toc-number">1.1.2.</span> <span class="toc-text">预防</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">基本思路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A0%B4%E5%9D%8F%E5%9B%9B%E4%B8%AA%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">破坏四个条件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%BF%E5%85%8D"><span class="toc-number">1.1.3.</span> <span class="toc-text">避免</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5-1"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">一些概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">银行家算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B"><span class="toc-number">1.1.4.</span> <span class="toc-text">检测</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E7%9A%84%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">死锁的检测算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%99%A4%EF%BC%88%E6%81%A2%E5%A4%8D%EF%BC%89"><span class="toc-number">1.1.5.</span> <span class="toc-text">解除（恢复）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A5%A5%E9%A5%BF"><span class="toc-number">1.2.</span> <span class="toc-text">饥饿</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A5%BF%E6%AD%BB%E5%92%8C%E6%AD%BB%E9%94%81%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%884%E6%9D%A1%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">饿死和死锁的区别（4条）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E7%A7%8D%E5%8F%AF%E5%A4%8D%E7%94%A8%E8%B5%84%E6%BA%90%E6%AD%BB%E9%94%81%E7%9A%84%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">同种可复用资源死锁的必要条件</span></a></li></ol></li></ol>
     </nav>
   </div>
 </aside>
 
 <main class="main" role="main">
   <div class="content">
-  <article id="post-RIP-Route" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-Ch5-死锁和饥饿" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      基于距离向量算法的路由协议RIP
+      Ch5_死锁和饥饿
     </h1>
   
 
@@ -362,8 +347,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2022/01/15/RIP-Route/" class="article-date">
-	  <time datetime="2022-01-15T08:42:27.000Z" itemprop="datePublished">2022-01-15</time>
+	<a href="/2023/03/24/Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF/" class="article-date">
+	  <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
 	</a>
 </span>
         
@@ -375,67 +360,88 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/Computer-Networks/" rel="tag">Computer Networks</a>
+	<a class="article-tag-link-link" href="/tags/OS/" rel="tag">OS</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/01/15/RIP-Route/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/03/24/Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><p>理解基于距离向量算法的路由协议 RIP。</p>
-<h2 id="二、实验内容和要求"><a href="#二、实验内容和要求" class="headerlink" title="二、实验内容和要求"></a>二、实验内容和要求</h2><p>1、用 Cisco Packet Tracer 研究 RIP；</p>
-<p>2、支持多个路由器；</p>
-<p>3、学习使用 Cisco Packet Tracer 的 Simulation 模式，通过捕获的数据分析 RIP 报文格式，并在实验报告体现；</p>
-<h2 id="三、实验过程"><a href="#三、实验过程" class="headerlink" title="三、实验过程"></a>三、实验过程</h2><h3 id="3-1建立网络拓扑结构"><a href="#3-1建立网络拓扑结构" class="headerlink" title="3.1建立网络拓扑结构"></a>3.1建立网络拓扑结构</h3><p>在Packet Tracer中，建立如图所示的网络拓扑结构:</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/1.png" alt="1"></p>
-<h3 id="3-2配置参数"><a href="#3-2配置参数" class="headerlink" title="3.2配置参数"></a>3.2配置参数</h3><h4 id="3-2-1-PC配置"><a href="#3-2-1-PC配置" class="headerlink" title="3.2.1 PC配置"></a>3.2.1 PC配置</h4><p>PC0的配置：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/2.png" alt="2"></p>
-<p>PC1的配置：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/3.png" alt="3"></p>
-<h4 id="3-2-2-Route-IP、RIP配置"><a href="#3-2-2-Route-IP、RIP配置" class="headerlink" title="3.2.2 Route IP、RIP配置"></a>3.2.2 Route IP、RIP配置</h4><p>Route A配置：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/4.png" alt="4"></p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/5.png" alt="5"><br>Route B配置：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/6.png" alt="6"></p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/7.png" alt="7"></p>
-<p>Route C配置：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/8.png" alt="8"></p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/9.png" alt="9"></p>
-<p>Route D配置：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/10.png" alt="10"></p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/11.png" alt="11"></p>
-<p>Route E配置：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/12.png" alt="12"></p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/13.png" alt="13"></p>
-<h3 id="3-3测试网络"><a href="#3-3测试网络" class="headerlink" title="3.3测试网络"></a>3.3测试网络</h3><h4 id="3-3-1连通性测试"><a href="#3-3-1连通性测试" class="headerlink" title="3.3.1连通性测试"></a>3.3.1连通性测试</h4><p>PC0、PC1分别使用ping命令，可见网络是连通的。</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/14.png" alt="14"></p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/15.png" alt="15"></p>
-<h4 id="3-3-2使用Simulation模式查看网络及报文"><a href="#3-3-2使用Simulation模式查看网络及报文" class="headerlink" title="3.3.2使用Simulation模式查看网络及报文"></a>3.3.2使用Simulation模式查看网络及报文</h4><p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/16.png" alt="16"></p>
-<p>对报文进行分析</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/17.png" alt="17"></p>
-<p>Layer1 是物理层，表示Route从GigabitEthernet0/1收到数据。</p>
-<p>Layer2 是数据链路层，表示其MAC地址。</p>
-<p>Layer3 是网络层，表示源地址和目的地址。</p>
-<p>Layer4 是传输层，表示报文交接的端口。</p>
-<p>Layer7 是应用层，表示协议及版本。</p>
-<p>报文具体格式：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/18.png" alt="18"></p>
-<p>Route A路由表：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/19.png" alt="19"></p>
-<p>Route B路由表：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/20.png" alt="20"></p>
-<p>Route C路由表：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/21.png" alt="21"></p>
-<p>Route D路由表：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/22.png" alt="22"></p>
-<p>Route E路由表：</p>
-<p><img src="https://zhangjy1014.github.io/2022/01/15/RIP-Route/23.png" alt="23"></p>
-<p>由此可见所有路由器都学到了网络的跳转路径。</p>
-<p>附：<a href="https://zhangjy1014.github.io/2022/01/15/RIP-Route/4.pkt" title="4.pkt">Cisco Packet Tracer实验文件</a></p>
+        <h1 id="Ch5-死锁和饥饿"><a href="#Ch5-死锁和饥饿" class="headerlink" title="Ch5_死锁和饥饿"></a>Ch5_死锁和饥饿</h1><p>[toc]</p>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a><strong>死锁</strong></h2><h3 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h3><h4 id="死锁的概念"><a href="#死锁的概念" class="headerlink" title="死锁的概念"></a>死锁的概念</h4><p>定义：由于进程竞争资源而形成的僵持状态。<br>           一组进程中的每个进程均等待此组进程中某一其它进程占有的、因而永远无法得到的资源, 这种因进程竞争资源而引起的僵持现象称<strong>进程死锁</strong>。</p>
+<p>几个有用结论：</p>
+<p>   (1)参与死锁的进程数至少为二；</p>
+<p>   (2)参与死锁的所有进程均等待资源；</p>
+<p>   (3)参与死锁的进程至少有两个已占有资源；</p>
+<p>   (4)参与死锁的进程是系统中当前正在运行进程集合的一个子集。</p>
+<p>死锁发生的四个必要条件：</p>
+<p>​    (1) <strong>资源独占</strong>：一个资源仅分配给一个进程。如果进程申请某一资源, 而该资源正被另一进程占用, 则申请者需等待, 直到占有者释放该资源。也叫<strong>互斥条件</strong></p>
+<p>​    (2)<strong>不可剥夺</strong>：资源申请者不能从资源占有者手中抢夺资源</p>
+<p>​    (3)<strong>保持申请</strong>，即进程占有部分资源后还可申请新的资源, 且申请新资源时并不释放已占有资源。<strong>也叫请求保持条件。</strong></p>
+<p>​    (4)<strong>循环等待</strong>：进程p<del>1</del>等待p<del>2</del>的资源占有的，p<del>2</del>等待p<del>3</del>占有的资源…p<del>n</del>等待p<del>1</del>占有的资源</p>
+<p>==死锁的产生当且仅当四个条件同时满足！！==<br>==破坏一个条件死锁就不会发生。==</p>
+<h4 id="死锁的类型（3大原因）"><a href="#死锁的类型（3大原因）" class="headerlink" title="死锁的类型（3大原因）"></a>死锁的类型（3大原因）</h4><p>​    (1)资源竞争引起：竞争有限资源</p>
+<p>​    (2)进程通信引起：互相等待消息</p>
+<p>​    (3)其他原因after you：互相谦让</p>
+<h4 id="死锁的处理"><a href="#死锁的处理" class="headerlink" title="死锁的处理"></a>死锁的处理</h4><h5 id="四大策略"><a href="#四大策略" class="headerlink" title="四大策略"></a>四大策略</h5><p>不让死锁发生：预防、避免</p>
+<p>让死锁发生：检测、解除（恢复）</p>
+<h5 id="静态动态"><a href="#静态动态" class="headerlink" title="静态动态"></a>静态动态</h5><p>静态：在进程未申请资源时就限制有关活动</p>
+<p>动态：在进程申请资源时加以实时检测，拒绝不安全的申请</p>
+<p>静态预防、动态避免、动态检测、动态解除</p>
+<h4 id="资源分配图"><a href="#资源分配图" class="headerlink" title="资源分配图"></a>资源分配图</h4><p>描述资源分配情况。</p>
+<p>圆圈-&gt;进程； 资源类-&gt;方框；资源类的子资源-&gt;圆点。</p>
+<p>申请资源：P<del>i</del>向R<del>j</del>申请资源，画一条申请边（有向边），若可满足，改为分配边。</p>
+<p>释放资源：进程释放资源，去掉对应的分配边。</p>
+<img src="https://s2.loli.net/2022/07/16/o4HfmbetcAPOsqT.png" alt="image-20220531215700356" style="zoom:50%;">
+
+<p>资源分配图无环路，代表无死锁。</p>
+<p>存在环路，意味着可能死锁，也可能没死锁</p>
+<p>一个资源类只有一个资源且有环路，必死锁；多个资源有环路则不一定死锁</p>
+<h5 id="资源分配图约简步骤"><a href="#资源分配图约简步骤" class="headerlink" title="资源分配图约简步骤"></a>资源分配图约简步骤</h5><p>(1) 寻找一个非孤立且<strong>没有请求边</strong>的进程结点p<del>i</del> , 若无，则算法结束；<strong>没有请求边说明资源全部得到</strong></p>
+<p>(2) 去除P<del>i</del> 的所有分配边使P<del>i</del> 成为一个孤立结点；</p>
+<p>(3) 寻找所有请求边均可满足的进程<em>P<del>j</del></em>,将<em>P<del>j</del></em> 的请求边全部改为分配边；</p>
+<p>(4) 转步骤(1)。</p>
+<h5 id="死锁定理"><a href="#死锁定理" class="headerlink" title="死锁定理"></a>死锁定理</h5><p>S<em>为死锁状态的==充分必要条件==是</em>S的资源分配图不可完全约简。</p>
+<h3 id="预防"><a href="#预防" class="headerlink" title="预防"></a>预防</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><p>破坏死锁产生的四个必要条件之一</p>
+<h4 id="破坏四个条件"><a href="#破坏四个条件" class="headerlink" title="破坏四个条件"></a>破坏四个条件</h4><p>​    (1)破坏互斥条件：允许多个进程同时访问资源<br>​    (2)破坏请求和保持条件：预先静态分配，进程开始前就完成对所有资源的申请<br>​    (3)破坏不可剥夺条件：就是剥夺资源，实现复杂性很高<br>​    (4)破坏环路条件，有序分配算法：对系统所有资源编号，进程对资源的请求必须严格资源序号的从低到高申请</p>
+<h3 id="避免"><a href="#避免" class="headerlink" title="避免"></a>避免</h3><h4 id="一些概念-1"><a href="#一些概念-1" class="headerlink" title="一些概念"></a>一些概念</h4><p>指在某一时刻，系统能按某种进程顺序(p1,p2,…，pn)来为每个进程Pi分配其资源,直到满足每个进程对资源的最大需求,使每个进程都可顺利地完成，则称此时的系统状态为==安全状态==。 序列(p1,p2,…，pn)为==安全序列==。若系统的某一时刻不存在安全序列，则此时的系统处于==不安全状态==。</p>
+<p>一个结论：安全状态一定没有死锁，不安全状态可能有死锁</p>
+<h4 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h4><p>资源预分配算法<br><img src="https://s2.loli.net/2022/07/16/qfbDmjNQG3etYRu.png" alt="image-20220601155954469" style="zoom:30%;"></p>
+<p>安全性检测算法<br><img src="https://s2.loli.net/2022/07/16/gOIwVepxBCNizDo.png" alt="image-20220601160029384" style="zoom:32%;"></p>
+<p>银行家算法的保守性的原因：是指银行家算法只给出了进程需要资源的最大量，而所需资源的具体申请和释放顺序仍是未知的，因而银行家只能往最坏处设想。</p>
+<p>银行家算法例：</p>
+<img src="https://s2.loli.net/2022/07/16/nGJtu4jioNfrxED.png" alt="image-20220619102002867" style="zoom:33%;">
+
+<img src="https://s2.loli.net/2022/07/16/EY8KM2sBQ9oFTbD.png" alt="image-20220619101449935" style="zoom:30%;">
+
+<img src="https://s2.loli.net/2022/07/16/Tc7rfzD5tyjCsJ6.png" alt="image-20220619101735801" style="zoom:30%;">
+
+<img src="https://s2.loli.net/2022/07/16/MsIPUdecBrTRgfZ.png" alt="image-20220619101907682" style="zoom:30%;">
+
+
+
+<p>​    </p>
+<h3 id="检测"><a href="#检测" class="headerlink" title="检测"></a>检测</h3><h4 id="死锁的检测算法"><a href="#死锁的检测算法" class="headerlink" title="死锁的检测算法"></a>死锁的检测算法</h4><img src="https://s2.loli.net/2022/07/16/hHEF3Qnk1MTuwbI.png" alt="image-20220601161157951" style="zoom:50%;">
+
+<h3 id="解除（恢复）"><a href="#解除（恢复）" class="headerlink" title="解除（恢复）"></a>解除（恢复）</h3><ol>
+<li>关闭进程</li>
+<li>重新启动</li>
+<li>剥夺资源、进程回退</li>
+</ol>
+<p>鸵鸟算法</p>
+<h2 id="饥饿"><a href="#饥饿" class="headerlink" title="饥饿"></a><strong>饥饿</strong></h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>饥饿：没有时间上界的等待：排队等待、忙式等待（等待态，就绪态，运行态）</p>
+<p>饿死：当一个进程的等待时间超过极限，即使最后完成了也没有意义</p>
+<h3 id="饿死和死锁的区别（4条）"><a href="#饿死和死锁的区别（4条）" class="headerlink" title="饿死和死锁的区别（4条）"></a>饿死和死锁的区别（4条）</h3><p><strong>死锁进程处于等待状态，饿死则不然；</strong>从进程状态考虑，死锁进程都处于等待状态，忙式等待(处于运行或就绪状态)的进程并非处于等待状态，但却可能被饿死.<br><strong>死锁可以检测，饿死不然</strong>；死锁一定有循环等待，而饿死不然；这也表明通过资源分配图可以检测死锁存在与否，但却不能检测是否有进程饿死.<br><strong>死锁一定涉及多个进程，而饥饿或饿死的进程可能只有一个；</strong><br><strong>死锁等待的资源不会释放，而饿死等待的资源会释放但却不会分配给它，其等待无上界；</strong></p>
+<h2 id="同种可复用资源死锁的必要条件"><a href="#同种可复用资源死锁的必要条件" class="headerlink" title="同种可复用资源死锁的必要条件"></a><strong>同种可复用资源死锁的必要条件</strong></h2><p>同种资源！</p>
+<p>前提是==N个进程==所需的是某类资源的多个==资源实例M==；</p>
+<p>每个进程至少需要一个资源实例 当所有进程所需资源总量满足==∑≥M+N==，必发生死锁；</p>
+<p>结论：若所需资源总量，<br>     当∑&lt; M+N时，一定无死锁。<br>     当∑≥M+N时，至少一个交叉有死锁。</p>
+<p>例如：设资源量=16，p1需要5个，p2需要6个，p3需要4个，p4<br>需要4个。<br>此时，∑=5+6+4+4=19，M+N=20，∑&lt;M+N，因此无死锁。<br>若p4需要5个，其余不变，则∑=M+N，则有可能死锁。<br>事实上，当p1得到4个，p2得到5个，p3得到3个，p4得到4个<br>是，将发生死锁。</p>
 
       
     </div>
@@ -445,7 +451,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://zhangjy1014.github.io/2022/01/15/RIP-Route/" title="基于距离向量算法的路由协议RIP" target="_blank" rel="external">https://zhangjy1014.github.io/2022/01/15/RIP-Route/</a>
+      <a href="https://zhangjy1014.github.io/2023/03/24/Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF/" title="Ch5_死锁和饥饿" target="_blank" rel="external">https://zhangjy1014.github.io/2023/03/24/Ch5-死锁和饥饿/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -492,12 +498,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2023/03/24/Ch8-IO%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86/" title="Ch8_IO设备管理"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/2023/03/24/Ch4-%E4%BA%92%E6%96%A5%E5%90%8C%E6%AD%A5%E4%B8%8E%E9%80%9A%E8%AE%AF/" title="Ch4_互斥同步与通讯"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2021/11/01/blog-object-oriented-design/" title="博客系统面向对象设计文档"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2023/03/24/Ch7-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="Ch7_文件系统"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

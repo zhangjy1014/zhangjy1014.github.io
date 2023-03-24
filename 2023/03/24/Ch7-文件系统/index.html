@@ -17,21 +17,28 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>博客系统面向对象设计文档 | JY&#39;s Blog</title>
-  <meta name="description" content="博客系统面向对象设计文档">
+  <title>Ch7_文件系统 | JY&#39;s Blog</title>
+  <meta name="description" content="Ch7_文件系统      [toc] 文件与文件系统文件文件的概念：文件是具有符号名且逻辑上具有完整意义的信息项的有序序列。文件是具有文件名的一组相关元素的集合。 文件系统文件系统的概念：文件与管理信息的程序集合称为文件系统 文件系统的功能：  为用户提供按名存取文件的手段 管理文件 管理外存  文件的访问方式 顺序访问：从前到后的顺序依次存取文件的各个信息项。 ​    1.由文件头顺序访问。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="博客系统面向对象设计文档">
-<meta property="og:url" content="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/index.html">
+<meta property="og:title" content="Ch7_文件系统">
+<meta property="og:url" content="https://zhangjy1014.github.io/2023/03/24/Ch7-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="ZhangJY_blog">
-<meta property="og:description" content="博客系统面向对象设计文档">
+<meta property="og:description" content="Ch7_文件系统      [toc] 文件与文件系统文件文件的概念：文件是具有符号名且逻辑上具有完整意义的信息项的有序序列。文件是具有文件名的一组相关元素的集合。 文件系统文件系统的概念：文件与管理信息的程序集合称为文件系统 文件系统的功能：  为用户提供按名存取文件的手段 管理文件 管理外存  文件的访问方式 顺序访问：从前到后的顺序依次存取文件的各个信息项。 ​    1.由文件头顺序访问。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-11-01T08:07:25.000Z">
-<meta property="article:modified_time" content="2022-03-01T08:13:28.533Z">
+<meta property="og:image" content="https://img.shields.io/badge/Github-@zhangjy1014-000000.svg?style=flat-square&logo=Github">
+<meta property="og:image" content="https://img.shields.io/badge/B%E7%AB%99-@Lil_SuiSad-000000.svg?style=flat-square&logo=Bilibili">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/toHuiZ2TrPYjUOs.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/e4EuGi2QbvNacFy.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/9HZALlSb8sg1eu4.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/16/Ev6OpHfkziQYuIj.png">
+<meta property="article:published_time" content="2023-03-24T12:41:25.000Z">
+<meta property="article:modified_time" content="2023-03-24T13:41:31.375Z">
 <meta property="article:author" content="ZhangJY">
-<meta property="article:tag" content="Software design">
+<meta property="article:tag" content="OS">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.shields.io/badge/Github-@zhangjy1014-000000.svg?style=flat-square&logo=Github">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/index.html">
+  <link rel="canonical" href="https://zhangjy1014.github.io/2023/03/24/Ch7-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/index.html">
   
     <link rel="alternate" href="/atom.xml" title="ZhangJY_blog" type="application/atom+xml">
   
@@ -312,16 +319,25 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ch7-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.</span> <span class="toc-text">Ch7_文件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.</span> <span class="toc-text">文件与文件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">文件系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9A%84%E8%AE%BF%E9%97%AE%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">文件的访问方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%84%E7%BB%87"><span class="toc-number">1.1.4.</span> <span class="toc-text">文件的组织</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E4%B8%8E%E7%9B%AE%E5%BD%95%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">文件目录与目录文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E7%BA%A7%E7%9B%AE%E5%BD%95"><span class="toc-number">1.2.1.</span> <span class="toc-text">单级目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E7%BA%A7%E7%9B%AE%E5%BD%95"><span class="toc-number">1.2.2.</span> <span class="toc-text">二级目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%BA%A7%E7%9B%AE%E5%BD%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">多级目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="toc-number">1.2.4.</span> <span class="toc-text">文件目录的改进</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
-  <article id="post-blog-object-oriented-design" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-Ch7-文件系统" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      博客系统面向对象设计文档
+      Ch7_文件系统
     </h1>
   
 
@@ -329,33 +345,113 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2021/11/01/blog-object-oriented-design/" class="article-date">
-	  <time datetime="2021-11-01T08:07:25.000Z" itemprop="datePublished">2021-11-01</time>
+	<a href="/2023/03/24/Ch7-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="article-date">
+	  <time datetime="2023-03-24T12:41:25.000Z" itemprop="datePublished">2023-03-24</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Software-Engineering/">Software Engineering</a>
+    <a class="article-category-link" href="/categories/Computer-Science/">Computer Science</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/Software-design/" rel="tag">Software design</a>
+	<a class="article-tag-link-link" href="/tags/OS/" rel="tag">OS</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/11/01/blog-object-oriented-design/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/03/24/Ch7-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p><a href="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/blog-object-oriented-design.pdf" title="blog-object-oriented-design.pdf">博客系统面向对象设计文档</a></p>
-<object data="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/blog-object-oriented-design.pdf" type="application/pdf" width="100%" height="877px"></object>
+        <h1 id="Ch7-文件系统"><a href="#Ch7-文件系统" class="headerlink" title="Ch7_文件系统"></a>Ch7_文件系统</h1><p align="center">
+<a href="https://github.com/zhangjy1014" target="view_window"><img alt="GitHub" src="https://img.shields.io/badge/Github-@zhangjy1014-000000.svg?style=flat-square&logo=Github"></a>
+<a target="_blank" rel="noopener" href="https://space.bilibili.com/434002748"><img src="https://img.shields.io/badge/B%E7%AB%99-@Lil_SuiSad-000000.svg?style=flat-square&logo=Bilibili"></a>
+</p>
+
+
+<p>[toc]</p>
+<h2 id="文件与文件系统"><a href="#文件与文件系统" class="headerlink" title="文件与文件系统"></a>文件与文件系统</h2><h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>文件的概念：<strong>文件</strong>是具有符号名且逻辑上具有完整意义的信息项的有序序列。文件是具有文件名的一组相关元素的集合。</p>
+<h3 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h3><p>文件系统的概念：文件与管理信息的程序集合称为<strong>文件系统</strong></p>
+<p>文件系统的功能：</p>
+<ol>
+<li>为用户提供按名存取文件的手段</li>
+<li>管理文件</li>
+<li>管理外存</li>
+</ol>
+<h3 id="文件的访问方式"><a href="#文件的访问方式" class="headerlink" title="文件的访问方式"></a>文件的访问方式</h3><ol>
+<li><p>顺序访问：从前到后的顺序依次存取文件的各个信息项。</p>
+<p>​    1.由文件头顺序访问。由文件起始位置开始依此访问文件的各个信息项。</p>
+<p>​    2.由文件内开始顺序访问。由文件的某一位置开始依次访问文件的各个信息项。</p>
+</li>
+<li><p>随机访问：无序存取文件的信息项</p>
+<ol>
+<li>按号随机访问。按信息项的编号随机存取文件的某些信息项</li>
+<li>按键随机访问。键是文件信息项中的一个域。按键随机访问指按信息项中的某个关键值随机存取文件记录。</li>
+</ol>
+</li>
+</ol>
+<h3 id="文件的组织"><a href="#文件的组织" class="headerlink" title="文件的组织"></a>文件的组织</h3><p>文件目录中的每一项就是文件目录项</p>
+<p>文件目录项就是文件控制块FCB</p>
+<p>文件的逻辑组织：文件的外部组织形式，用户看到的文件组织形式</p>
+<ol>
+<li>流式文件：无结构式，OS对流式文件的外部结构没有解释。具有符号名且逻辑上意义完整的字节序列。如可执行文件</li>
+<li>记录式文件：结构式。OS对记录式文件的外部结构有解释。具有符号名且逻辑上意义完整的记录序列。</li>
+</ol>
+<p>文件的物理组织：文件的内部组织形式，在物理存储设备上的组织形式。也就是存储方式。<br>文件常用的物理组织形式：</p>
+<ol>
+<li><p>顺序结构。该种文件占用连续的物理块号，首块号及块数存放在FCB中。<br>优点：访问速度快。缺点：容易产生碎片、不容易增加长度</p>
+</li>
+<li><p>链接结构。不必使用连续的物理块。采用链接分配方式时，通过每个物理块上的链接指针，将属于同一个文件的物理块链接成一个链表，这样形成的物理文件就称为链接式文件。<br>优点：长度动态变化容易、消除了碎片。缺点：随机访问速度慢、分配表也占用大量内存空间。</p>
+</li>
+<li><p>索引结构。采用索引分配方式的文件。就是一个文件占用的若干不连续的存储块的块号记录于一个索引块中。</p>
+<img src="https://s2.loli.net/2022/07/16/toHuiZ2TrPYjUOs.png" alt="image-20220618213104748" style="zoom:33%;">
+优点: 访问速度快,长度变化容易，没有碎片。
+
+<p>缺点: 索引块本身占内存,存储开销大。</p>
+</li>
+<li><p>散列结构</p>
+</li>
+<li><p>倒排结构</p>
+</li>
+</ol>
+<p>比较<br><img src="https://s2.loli.net/2022/07/16/e4EuGi2QbvNacFy.png" alt="image-20220618213251473" style="zoom:50%;"></p>
+<h2 id="文件目录与目录文件"><a href="#文件目录与目录文件" class="headerlink" title="文件目录与目录文件"></a>文件目录与目录文件</h2><p><strong>文件目录与目录文件</strong>是同一事物的两种称谓。从用途角度，称文件目录; 从实现角度，称目录文件。用途是文件的目录，存在形式是目录组成的文件</p>
+<p><strong>文件目录</strong>:用于检索文件的目录称文件目录,它是由目录项构成的有序序列。就是FCB的集合。给定一个文件名,通过查找文件目录便可找到该文件名对应的目录项(FCB)。</p>
+<p><strong>目录文件</strong>: 为实现对文件目录的管理,将文件目录作为文件保存于<strong>外存</strong>,该文件称目录文件。目录文件是长度固定的记录式文件每一个记录就是文件控制块FCB。</p>
+<h3 id="单级目录"><a href="#单级目录" class="headerlink" title="单级目录"></a>单级目录</h3><p>整个目录系统中只有一个目录，所有文件都存放在这个目录下。优点：简单；缺点：文件不能重名</p>
+<h3 id="二级目录"><a href="#二级目录" class="headerlink" title="二级目录"></a>二级目录</h3><p>==系统目录==：采用二级目录时，整个系统有一个公共目录<br>==用户目录==：每个用户有一个私有目录<br>==形式与内容==：所有用户目录位于系统目录内，每个用户目录记录该用户的文件。<br>==优点==：每个用户有自己的私用目录,因而不同用户可以用相同的文件名。<br>==缺点==:(1)不能将文件加以分类；   (2)用户文件较多时查找速度较慢。</p>
+<h3 id="多级目录"><a href="#多级目录" class="headerlink" title="多级目录"></a>多级目录</h3><p>多级目录构成一个倒向生长的树形结构。</p>
+<p>叶结点是一般文件或目录文件；</p>
+<p>非叶结点是目录文件；</p>
+<p>根结点是特殊目录文件(根目录文件)。</p>
+<img src="https://s2.loli.net/2022/07/16/9HZALlSb8sg1eu4.png" alt="image-20220618214421642" style="zoom:33%;">
+
+<p>优点：</p>
+<p>1）便于文件分类，可以为每个文件建立一个子目录；</p>
+<p>2）提高文件检索速度，因为每个目录下的文件数目较少；</p>
+<p>3）可以实现文件的链接。</p>
+<p>缺点：</p>
+<p>查找一个文件按路径名逐层检查，由于每个文件都放在外存，多次访盘影响速度。</p>
+<h3 id="文件目录的改进"><a href="#文件目录的改进" class="headerlink" title="文件目录的改进"></a>文件目录的改进</h3><p><strong>改进方法：</strong>将FCB分成FCB次部, FCB主部。FCB即目录项作为一组与文件相关的信息保存在一起。实现时，有些系统将它分为两部分: FCB次部, FCB主部。</p>
+<p>•<strong>次部：</strong>仅包括文件名和文件号，<strong>保存在目录文件中</strong>。目录文件变小</p>
+<p>•<strong>主部：</strong>包括除文件名外的所有信息和一个连接计数，连接计数值为0时表示一个空闲未用的FCB主部。<strong>主部保存在外存</strong>。</p>
+<p>改进的好处：</p>
+<p>可以提高查找速度(顺序查找)</p>
+<p>可以实现文件链接(link)</p>
+<img src="https://s2.loli.net/2022/07/16/Ev6OpHfkziQYuIj.png" alt="image-20220618215217130" style="zoom:50%;">
+
+
+
+<p>根目录和当前目录</p>
+<p>文件目录的查找</p>
+
       
     </div>
     <div class="article-footer">
@@ -364,7 +460,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/" title="博客系统面向对象设计文档" target="_blank" rel="external">https://zhangjy1014.github.io/2021/11/01/blog-object-oriented-design/</a>
+      <a href="https://zhangjy1014.github.io/2023/03/24/Ch7-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="Ch7_文件系统" target="_blank" rel="external">https://zhangjy1014.github.io/2023/03/24/Ch7-文件系统/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -411,14 +507,23 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2022/01/15/RIP-Route/" title="基于距离向量算法的路由协议RIP"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/2023/03/24/Ch5-%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF/" title="Ch5_死锁和饥饿"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2021/11/01/blog-structured-design/" title="博客系统结构化设计文档"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2023/03/24/Ch8-IO%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86/" title="Ch8_IO设备管理"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
     
   </ul>
   
