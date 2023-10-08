@@ -6,7 +6,7 @@
   <link href="https://zhangjy1014.github.io/atom.xml" rel="self"/>
   
   <link href="https://zhangjy1014.github.io/"/>
-  <updated>2023-10-08T08:45:32.565Z</updated>
+  <updated>2023-10-08T12:26:33.605Z</updated>
   <id>https://zhangjy1014.github.io/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>poc-002</title>
+    <link href="https://zhangjy1014.github.io/2023/10/08/poc-002/"/>
+    <id>https://zhangjy1014.github.io/2023/10/08/poc-002/</id>
+    <published>2023-10-08T12:26:06.000Z</published>
+    <updated>2023-10-08T12:26:33.605Z</updated>
+    
+    
+    
+    
+    
+    <category term="POC-test" scheme="https://zhangjy1014.github.io/tags/POC-test/"/>
+    
+  </entry>
   
   <entry>
     <title>poc-001</title>
