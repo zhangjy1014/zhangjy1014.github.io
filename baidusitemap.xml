@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zhangjy1014.github.io/2023/10/08/poc-001/</loc>
+    <lastmod>2023-10-08</lastmod>
+  </url>
+  <url>
     <loc>https://zhangjy1014.github.io/2023/09/17/testxss/</loc>
-    <lastmod>2023-09-17</lastmod>
+    <lastmod>2023-10-08</lastmod>
   </url>
   <url>
     <loc>https://zhangjy1014.github.io/2023/03/24/Ch8-IO%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86/</loc>
